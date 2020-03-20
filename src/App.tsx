@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     container: {
-      paddingTop: theme.spacing(5)
+      paddingTop: theme.spacing(2)
     }
   }),
 );
