@@ -11,8 +11,14 @@ import {Slider} from '../slider/slider';
 import {ShutdownRange, Range} from '../shudown-range/shutdown-range';
 import {sliders} from './controls-data';
 
-interface ControlState {
-    [key: string]: any;
+export interface ControlState {
+    R0?: number;
+    shutdownR0?: number;
+    mortalityRate?: number;
+    mortalityRateOverflow?: number;
+    hospitalizationRate?: number;
+    hospitalStayInWeeks?: number;
+    infectionStartDate?: Date;
 }
 
 interface Props {
@@ -60,7 +66,7 @@ const initialState: ControlState = sliders.reduce((sliderValues, slider) => {
     sliderValues[slider.name] = slider.defaultValue;
     return sliderValues;
 }, {});
-initialState.startDate = new Date('1/1/2020');
+initialState.infectionStartDate = new Date('1/1/2020');
 
 export const Controls: React.FC<Props> = ({ onChange }) => {
     const classes = useStyles();
@@ -93,7 +99,7 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
                     <Grid item>
                         <KeyboardDatePicker 
                             onChange={onDateChange}
-                            variant="inline" value={state.startDate} label='Infection Start date'></KeyboardDatePicker>
+                            variant="inline" value={state.infectionStartDate} label='Infection Start date'></KeyboardDatePicker>
                     </Grid>
                     {sliders.map(slider => <Grid item key={slider.name}>
                         <Slider {...slider} onChange={onSliderChange}></Slider>

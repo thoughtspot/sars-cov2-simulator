@@ -1,13 +1,26 @@
 import React, { useReducer, useEffect } from 'react';
 import { addWeeks } from 'date-fns';
-const reducer = (state, action) => {
+import { ControlState } from '../controls/controls';
+import { ShutdownRangeState } from '../shudown-range/shutdown-range';
+
+interface SimulatorInputState {
+    controls: ControlState;
+    shutdowns: ShutdownRangeState;
+}
+
+enum Actions {
+    CHANGE_CONTROL,
+    CHANGE_SHUTDOWN
+}
+
+const reducer = (state: SimulatorInputState, action) => {
     switch(action.type) {
-        case 'control':
+        case Actions.CHANGE_CONTROL:
             return {
                 ...state,
                 controls: action.controls
             }
-        case 'shutdowns':
+        case Actions.CHANGE_SHUTDOWN:
             return {
                 ...state,
                 shutdowns: action.shutdowns
@@ -24,26 +37,25 @@ export const useGenerateConfig = (): any[] => {
         shutdowns: []
     });
     return [
-        generateConfig(state),
-        (controls) => dispatch({type: 'control', controls}),
-        (shutdowns) => dispatch({type: 'shutdowns', shutdowns})
+        generateChartConfig(state),
+        (controls) => dispatch({type: Actions.CHANGE_CONTROL, controls}),
+        (shutdowns) => dispatch({type: Actions.CHANGE_SHUTDOWN, shutdowns})
     ];
 }
 
-function generateConfig(state) { 
+function generateChartConfig(state: SimulatorInputState) { 
     // TODO: Generate chart config here.
     let totalInfected = [{
-        x: state.controls.startDate,
+        x: state.controls.infectionStartDate,
         y: 1
     }];
 
     for(let i=1;i<20;i++) {
         totalInfected[i] = {
-            y: Math.floor(totalInfected[i-1].y * state.controls.R0),
+            y: Math.ceil(totalInfected[i-1].y * state.controls.R0),
             x: addWeeks(totalInfected[i-1].x, 1)
         };
     }
-    console.log(totalInfected);
     const options = {
         title: {
           text: ''

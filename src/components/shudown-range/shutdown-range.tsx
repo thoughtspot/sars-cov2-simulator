@@ -1,7 +1,5 @@
 import React from 'react';
-import 'date-fns';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -19,6 +17,8 @@ export interface Range {
     startDate: Date,
     endDate: Date
 };
+
+export type ShutdownRangeState = Range[];
 
 interface Props {
     onChange: (ranges: Range[]) => void;
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const ShutdownRange: React.FC<Props> = ({ onChange }) => {
     const classes = useStyles();
-    const [ranges, setRanges] = React.useState<Range[]>([]);
+    const [ranges, setRanges] = React.useState<ShutdownRangeState>([]);
     React.useEffect(() => {
         onChange(ranges);
     }, [ranges]);
@@ -67,7 +67,6 @@ export const ShutdownRange: React.FC<Props> = ({ onChange }) => {
     }
 
     return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Paper elevation={3} className={classes.root}>
             <Grid container direction="column" alignItems="flex-start" spacing={2}>
                 <Typography className={classes.marginBottom}>Shutdown Dates</Typography>
@@ -85,5 +84,4 @@ export const ShutdownRange: React.FC<Props> = ({ onChange }) => {
                 </Grid>
             </Grid>
         </Paper>
-    </MuiPickersUtilsProvider>)
 }

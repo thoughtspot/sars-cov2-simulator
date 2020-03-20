@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Simulator: React.FC = () => {
     const classes = useStyles();
-    const [config, onControlChange, onShutdownChange] = useGenerateConfig();
+    const [chartConfig, onControlChange, onShutdownChange] = useGenerateConfig();
 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -40,7 +40,7 @@ export const Simulator: React.FC = () => {
                         <ShutdownRange onChange={onShutdownChange}></ShutdownRange>
                     </Grid>
                     <Grid item className={classes.content}>
-                        <Chart config={config}></Chart>
+                        <Chart config={chartConfig}></Chart>
                     </Grid>
                 </Grid>
             </Grid>
