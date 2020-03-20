@@ -109,17 +109,17 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
         })
     }
 
-    const onPopulationChange = (event, value?) => {
+    const onPopulationChange = (event) => {
         dispatch({
             type: Actions.CHANGE_POPULATION,
-            value
+            value: event.target.value
         })
     }
 
-    const onBedsChanged = (event, value?) => {
+    const onBedsChanged = (event) => {
         dispatch({
             type: Actions.CHANGE_BEDS,
-            value
+            value: event.target.value
         })
     }
 
