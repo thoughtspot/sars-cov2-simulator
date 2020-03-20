@@ -50,22 +50,55 @@ function generateChartConfig(state: SimulatorInputState) {
         y: 1
     }];
 
-    for(let i=1;i<20;i++) {
+    let newInfected = [{
+        x: state.controls.infectionStartDate,
+        y: 1
+    }];
+
+    let totalDead = [{
+        x: state.controls.infectionStartDate,
+        y: 0
+    }]
+
+    for(let i=1;i<50;i++) {
         totalInfected[i] = {
             y: Math.ceil(totalInfected[i-1].y * state.controls.R0),
             x: addWeeks(totalInfected[i-1].x, 1)
         };
+
+        newInfected[i] = {
+            x: addWeeks(newInfected[i-1].x, 1),
+            y: totalInfected[i].y - (totalInfected[i-3]?.y || 0)
+        }
+
+        totalDead[i] = {
+            x: addWeeks(newInfected[i-1].x, 1),
+            y: Math.floor((totalInfected[i-3]?.y || 0) * state.controls.mortalityRate / 100)
+        }
+
     }
     const options = {
         title: {
           text: ''
         },
+        yAxis: {
+            type: 'logarithmic',
+            title: 'Number of people'
+            
+        },
         xAxis: {
-            type: 'datetime'
+            type: 'datetime',
+            title: 'Date'
         },
         series: [{
           name: 'Total infected',
           data: totalInfected
+        }, {
+            name: 'New Infected',
+            data: newInfected
+        }, {
+            name: 'Total Dead',
+            data: totalDead
         }]
     }
 
