@@ -19,10 +19,12 @@
     "gh-pages": "^2.2.0",
     "highcharts": "^8.0.4",
     "highcharts-react-official": "^3.0.0",
+    "human-number": "^1.0.5",
     "react": "^16.13.0",
     "react-date-range": "^1.0.3",
     "react-dom": "^16.13.0",
     "react-scripts": "3.4.0",
+    "short-number": "^1.0.7",
     "typescript": "^3.7.5"
   },
   "scripts": {

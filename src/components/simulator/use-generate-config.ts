@@ -1,4 +1,6 @@
 import React, { useReducer, useEffect } from 'react';
+import shortNum from 'short-number';
+import { format } from 'date-fns';
 import { SimulatorInputState, generateData} from './data-generator';
 
 enum Actions {
@@ -60,6 +62,12 @@ function generateChartConfig(state: SimulatorInputState) {
         plotOptions: {
             line: {
                 lineWidth: 4
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return `<b>${this.series.name}</b>:${shortNum(this.y)} <br>` +
+                    `${format(this.x, 'do MMM y')}`;
             }
         },
         series
