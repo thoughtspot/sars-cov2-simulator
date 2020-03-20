@@ -1,12 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
-import { addWeeks, isWithinInterval } from 'date-fns';
-import { ControlState } from '../controls/controls';
-import { ShutdownRangeState } from '../shudown-range/shutdown-range';
-
-interface SimulatorInputState {
-    controls: ControlState;
-    shutdowns: ShutdownRangeState;
-}
+import { SimulatorInputState, generateData} from './data-generator';
 
 enum Actions {
     CHANGE_CONTROL,
@@ -43,50 +36,13 @@ export const useGenerateConfig = (): any[] => {
     ];
 }
 
+
+
+
 function generateChartConfig(state: SimulatorInputState) { 
     // TODO: Generate chart config here.
-    let totalInfected = [{
-        x: state.controls.infectionStartDate,
-        y: 1
-    }];
-
-    let newInfected = [{
-        x: state.controls.infectionStartDate,
-        y: 1
-    }];
-
-    let totalDead = [{
-        x: state.controls.infectionStartDate,
-        y: 0
-    }]
-
-    for(let i=1;i<50;i++) {
-        
-        totalDead[i] = {
-            x: addWeeks(totalDead[i-1].x, 1),
-            y: Math.floor((totalInfected[i-3]?.y || 0) * state.controls.mortalityRate / 100)
-        }
-
-        let week = addWeeks(totalInfected[i-1].x, 1);
-        let multiplier = (isShutdown(week, state.shutdowns))
-         ? state.controls.shutdownR0 
-         : state.controls.R0;
-
-        totalInfected[i] = {
-            y: (
-                Math.ceil(totalInfected[i-1].y * multiplier)
-                - (totalInfected[i-3]?.y || 0)
-                - totalDead[i].y
-            ),
-            x: week
-        };
-
-        newInfected[i] = {
-            x: addWeeks(newInfected[i-1].x, 1),
-            y: totalInfected[i].y - (totalInfected[i-3]?.y || 0)
-        }
-
-    }
+    let data = generateData(state);
+    let series = createSeries(data);
     const options = {
         title: {
           text: ''
@@ -98,27 +54,38 @@ function generateChartConfig(state: SimulatorInputState) {
         },
         xAxis: {
             type: 'datetime',
-            title: 'Date'
+            title: 'Date',
+            gridLineWidth: 1
         },
-        series: [{
-          name: 'Total infected',
-          data: totalInfected
-        }, {
-            name: 'New Infected',
-            data: newInfected
-        }, {
-            name: 'Total Dead',
-            data: totalDead
-        }]
+        plotOptions: {
+            line: {
+                lineWidth: 4
+            }
+        },
+        series
     }
 
+    console.log(options);
     return options;
 }
 
-function isShutdown(week, shutdowns) {
-    try {
-        return  shutdowns.some(shutdown => isWithinInterval(week, shutdown));
-    } catch {
-        return false;
-    }
+
+function createSeries(data) {
+    let series = {};
+    data.forEach(obj => {
+        Object.keys(obj).forEach(key => {
+            series[key] = series[key] || {name: key, data: [], visible: false};
+            series[key].data.push({
+                x: obj.week,
+                y: obj[key]
+            });
+        });
+    });
+    delete series['week'];
+    delete series['weekNum'];
+
+    series['totalInfected'].visible = true;
+    series['dead'].visible = true;
+    series['newInfected'].visible = true;
+    return Object.values(series);
 }

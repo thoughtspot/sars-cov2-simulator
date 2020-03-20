@@ -3,12 +3,11 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import { Button, Typography } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
+import TextField from '@material-ui/core/TextField';
 import {
     KeyboardDatePicker,
   } from '@material-ui/pickers';
 import {Slider} from '../slider/slider';
-import {ShutdownRange, Range} from '../shudown-range/shutdown-range';
 import {sliders} from './controls-data';
 
 export interface ControlState {
@@ -19,11 +18,29 @@ export interface ControlState {
     hospitalizationRate?: number;
     hospitalStayInWeeks?: number;
     infectionStartDate?: Date;
+    totalPopulation?: number;
+    totalHospitalBeds?: number;
 }
 
 interface Props {
     onChange?: (controls: ControlState) => void;
 }
+
+enum Actions {
+    CHANGE_SLIDER_VALUE,
+    CHANGE_START_DATE,
+    CHANGE_POPULATION,
+    CHANGE_BEDS
+}
+
+const initialState: ControlState = sliders.reduce((sliderValues, slider) => {
+    sliderValues[slider.name] = slider.defaultValue;
+    return sliderValues;
+}, {});
+initialState.infectionStartDate = new Date('1/1/2020');
+initialState.totalPopulation = 331000000;
+initialState.totalHospitalBeds = 1000000;
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,10 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-enum Actions {
-    CHANGE_SLIDER_VALUE,
-    CHANGE_START_DATE
-}
+
 
 function reducer(state, action) {
     switch(action.type) {
@@ -55,18 +69,23 @@ function reducer(state, action) {
         case Actions.CHANGE_START_DATE:
             return {
                 ...state,
-                startDate: action.startDate
+                infectionStartDate: action.infectionStartDate
             }
+        case Actions.CHANGE_POPULATION:
+            return {
+                ...state,
+                totalPopulation: action.value
+            }
+        case Actions.CHANGE_BEDS:
+            return {
+                ...state,
+                totalHospitalBeds: action.value
+            }
+        
         default:
             return state;
     }
 }
-
-const initialState: ControlState = sliders.reduce((sliderValues, slider) => {
-    sliderValues[slider.name] = slider.defaultValue;
-    return sliderValues;
-}, {});
-initialState.infectionStartDate = new Date('1/1/2020');
 
 export const Controls: React.FC<Props> = ({ onChange }) => {
     const classes = useStyles();
@@ -90,16 +109,40 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
         })
     }
 
+    const onPopulationChange = (event, value?) => {
+        dispatch({
+            type: Actions.CHANGE_POPULATION,
+            value
+        })
+    }
+
+    const onBedsChanged = (event, value?) => {
+        dispatch({
+            type: Actions.CHANGE_BEDS,
+            value
+        })
+    }
+
     return (
             <Paper elevation={3} className={classes.root}>
-                <Grid container direction="column" alignItems="flex-start" spacing={10}>
+                <Grid container direction="column" alignItems="flex-start" spacing={8}>
                     <Grid item>
                         <Typography>Control Values</Typography>
+                    </Grid>
+                    <Grid item>
+                        <TextField label="Total population"
+                            onChange={onPopulationChange}
+                            value={state.totalPopulation}></TextField>
                     </Grid>
                     <Grid item>
                         <KeyboardDatePicker 
                             onChange={onDateChange}
                             variant="inline" value={state.infectionStartDate} label='Infection Start date'></KeyboardDatePicker>
+                    </Grid>
+                    <Grid item>
+                        <TextField label="Total hospital beds"
+                            onChange={onBedsChanged}
+                            value={state.totalHospitalBeds}></TextField>
                     </Grid>
                     {sliders.map(slider => <Grid item key={slider.name}>
                         <Slider {...slider} onChange={onSliderChange}></Slider>
