@@ -14,8 +14,8 @@ import Paper from '@material-ui/core/Paper';
 
 
 export interface Range {
-    startDate: Date,
-    endDate: Date
+    start: Date,
+    end: Date
 };
 
 export type ShutdownRangeState = Range[];
@@ -47,8 +47,8 @@ export const ShutdownRange: React.FC<Props> = ({ onChange }) => {
 
     const addRange = () => {
         const range = {
-            startDate: new Date(),
-            endDate: new Date()
+            start: new Date(),
+            end: new Date()
         }
         setRanges([
             ...ranges,
@@ -71,8 +71,8 @@ export const ShutdownRange: React.FC<Props> = ({ onChange }) => {
             <Grid container direction="column" alignItems="flex-start" spacing={2}>
                 <Typography className={classes.marginBottom}>Shutdown Dates</Typography>
                 {ranges.map((range, idx) => <Grid container item direction="row" spacing={4} alignItems="center">
-                    <Grid item><KeyboardDatePicker variant="inline" onChange={changeRange(range)('startDate')}  value={range.startDate} label='Start'></KeyboardDatePicker></Grid>
-                    <Grid item><KeyboardDatePicker variant="inline" onChange={changeRange(range)('endDate')}  value={range.endDate} label='End'></KeyboardDatePicker></Grid>
+                    <Grid item><KeyboardDatePicker variant="inline" onChange={changeRange(range)('start')}  value={range.start} label='Start'></KeyboardDatePicker></Grid>
+                    <Grid item><KeyboardDatePicker variant="inline" onChange={changeRange(range)('end')}  value={range.end} label='End'></KeyboardDatePicker></Grid>
                     <Grid item>
                         <IconButton onClick={removeRange(idx)} aria-label="delete">
                             <DeleteIcon />

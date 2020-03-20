@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
-import { addWeeks } from 'date-fns';
+import { addWeeks, isWithinInterval } from 'date-fns';
 import { ControlState } from '../controls/controls';
 import { ShutdownRangeState } from '../shudown-range/shutdown-range';
 
@@ -61,19 +61,29 @@ function generateChartConfig(state: SimulatorInputState) {
     }]
 
     for(let i=1;i<50;i++) {
+        
+        totalDead[i] = {
+            x: addWeeks(totalDead[i-1].x, 1),
+            y: Math.floor((totalInfected[i-3]?.y || 0) * state.controls.mortalityRate / 100)
+        }
+
+        let week = addWeeks(totalInfected[i-1].x, 1);
+        let multiplier = (isShutdown(week, state.shutdowns))
+         ? state.controls.shutdownR0 
+         : state.controls.R0;
+
         totalInfected[i] = {
-            y: Math.ceil(totalInfected[i-1].y * state.controls.R0),
-            x: addWeeks(totalInfected[i-1].x, 1)
+            y: (
+                Math.ceil(totalInfected[i-1].y * multiplier)
+                - (totalInfected[i-3]?.y || 0)
+                - totalDead[i].y
+            ),
+            x: week
         };
 
         newInfected[i] = {
             x: addWeeks(newInfected[i-1].x, 1),
             y: totalInfected[i].y - (totalInfected[i-3]?.y || 0)
-        }
-
-        totalDead[i] = {
-            x: addWeeks(newInfected[i-1].x, 1),
-            y: Math.floor((totalInfected[i-3]?.y || 0) * state.controls.mortalityRate / 100)
         }
 
     }
@@ -103,4 +113,12 @@ function generateChartConfig(state: SimulatorInputState) {
     }
 
     return options;
+}
+
+function isShutdown(week, shutdowns) {
+    try {
+        return  shutdowns.some(shutdown => isWithinInterval(week, shutdown));
+    } catch {
+        return false;
+    }
 }
