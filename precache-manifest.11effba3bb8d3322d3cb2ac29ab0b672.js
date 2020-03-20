@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6b372ce985562a059dd61b55a4bd098e",
+    "revision": "243598db0a143fe19f6981d2bf6a43b4",
     "url": "/pages/dev/sars-cov2-simulator/index.html"
   },
   {
-    "revision": "761b5865839860ab2cb3",
+    "revision": "977c2160a2ed375ed0ac",
     "url": "/pages/dev/sars-cov2-simulator/static/css/main.3aae1b45.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/pages/dev/sars-cov2-simulator/static/js/2.a257b3ab.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "761b5865839860ab2cb3",
-    "url": "/pages/dev/sars-cov2-simulator/static/js/main.5bf2a07d.chunk.js"
+    "revision": "977c2160a2ed375ed0ac",
+    "url": "/pages/dev/sars-cov2-simulator/static/js/main.77d507bf.chunk.js"
   },
   {
     "revision": "6300ac330a49531adf00",
