@@ -46,9 +46,10 @@ export const ShutdownRange: React.FC<Props> = ({ onChange }) => {
     }, [ranges]);
 
     const addRange = () => {
+        let rangeStart = ranges[ranges.length - 1]?.end || new Date();
         const range = {
-            start: new Date(),
-            end: new Date()
+            start: rangeStart,
+            end: rangeStart
         }
         setRanges([
             ...ranges,
@@ -63,6 +64,9 @@ export const ShutdownRange: React.FC<Props> = ({ onChange }) => {
 
     const changeRange = range => type => date => {
         range[type] = date;
+        if(type === 'start') {
+            range.end = date;
+        }
         setRanges([...ranges]);
     }
 

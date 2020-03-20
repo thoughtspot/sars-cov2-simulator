@@ -2,6 +2,7 @@ import React, { useReducer, useEffect } from 'react';
 import shortNum from 'short-number';
 import { format } from 'date-fns';
 import { SimulatorInputState, generateData} from './data-generator';
+import { ShutdownRangeState } from '../shudown-range/shutdown-range';
 
 enum Actions {
     CHANGE_CONTROL,
@@ -57,7 +58,8 @@ function generateChartConfig(state: SimulatorInputState) {
         xAxis: {
             type: 'datetime',
             title: 'Date',
-            gridLineWidth: 1
+            gridLineWidth: 1,
+            plotBands: createShutdownBands(state.shutdowns)
         },
         plotOptions: {
             line: {
@@ -75,6 +77,16 @@ function generateChartConfig(state: SimulatorInputState) {
 
     console.log(options);
     return options;
+}
+
+function createShutdownBands(shutdowns: ShutdownRangeState) {
+    return shutdowns.map(s => {
+        return {
+            color: '#ffcccb',
+            from: s.start,
+            to: s.end
+        };
+    })
 }
 
 
