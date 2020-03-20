@@ -84,4 +84,5 @@ export const ShutdownRange: React.FC<Props> = ({ onChange }) => {
                 </Grid>
             </Grid>
         </Paper>
+    )
 }
