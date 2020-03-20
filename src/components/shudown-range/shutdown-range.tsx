@@ -5,6 +5,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import { addWeeks } from 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import { Button, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
@@ -40,7 +41,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const ShutdownRange: React.FC<Props> = ({ onChange }) => {
     const classes = useStyles();
-    const [ranges, setRanges] = React.useState<ShutdownRangeState>([]);
+    const [ranges, setRanges] = React.useState<ShutdownRangeState>([{
+        start: new Date(),
+        end: addWeeks(new Date(), 12)
+    }]);
     React.useEffect(() => {
         onChange(ranges);
     }, [ranges]);
