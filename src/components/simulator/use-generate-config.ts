@@ -75,7 +75,7 @@ function generateChartConfig(state: SimulatorInputState) {
         },
         plotOptions: {
             line: {
-                lineWidth: 7
+                lineWidth: 5
             }
         },
         tooltip: {
