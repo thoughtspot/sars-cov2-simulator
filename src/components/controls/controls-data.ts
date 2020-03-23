@@ -20,7 +20,7 @@ export const sliders = [
         name: 'mortalityRate',
         min: 0,
         max: 5.0,
-        step: 0.5,
+        step: 0.1,
         defaultValue: 0.5,
         percent: true
     },

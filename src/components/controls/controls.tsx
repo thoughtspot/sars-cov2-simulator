@@ -102,10 +102,10 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
         });
     }
 
-    const onDateChange = (startDate: Date) => {
+    const onDateChange = (infectionStartDate: Date) => {
         dispatch({
             type: Actions.CHANGE_START_DATE,
-            startDate
+            infectionStartDate
         })
     }
 
