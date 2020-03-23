@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/pages/dev/sars-cov2-simulator/static/css/main.3aae1b45.chunk.css",
-    "main.js": "/pages/dev/sars-cov2-simulator/static/js/main.7849b386.chunk.js",
-    "main.js.map": "/pages/dev/sars-cov2-simulator/static/js/main.7849b386.chunk.js.map",
+    "main.css": "/pages/dev/sars-cov2-simulator/static/css/main.35d2f748.chunk.css",
+    "main.js": "/pages/dev/sars-cov2-simulator/static/js/main.5e5c7fc1.chunk.js",
+    "main.js.map": "/pages/dev/sars-cov2-simulator/static/js/main.5e5c7fc1.chunk.js.map",
     "runtime-main.js": "/pages/dev/sars-cov2-simulator/static/js/runtime-main.aa5c77f4.js",
     "runtime-main.js.map": "/pages/dev/sars-cov2-simulator/static/js/runtime-main.aa5c77f4.js.map",
-    "static/js/2.efa135e3.chunk.js": "/pages/dev/sars-cov2-simulator/static/js/2.efa135e3.chunk.js",
-    "static/js/2.efa135e3.chunk.js.map": "/pages/dev/sars-cov2-simulator/static/js/2.efa135e3.chunk.js.map",
+    "static/js/2.bb5d0097.chunk.js": "/pages/dev/sars-cov2-simulator/static/js/2.bb5d0097.chunk.js",
+    "static/js/2.bb5d0097.chunk.js.map": "/pages/dev/sars-cov2-simulator/static/js/2.bb5d0097.chunk.js.map",
     "index.html": "/pages/dev/sars-cov2-simulator/index.html",
-    "precache-manifest.294a7475963befd506719c1ab793546f.js": "/pages/dev/sars-cov2-simulator/precache-manifest.294a7475963befd506719c1ab793546f.js",
+    "precache-manifest.ebea6f57f88a295b38d6ced6908c7d23.js": "/pages/dev/sars-cov2-simulator/precache-manifest.ebea6f57f88a295b38d6ced6908c7d23.js",
     "service-worker.js": "/pages/dev/sars-cov2-simulator/service-worker.js",
-    "static/css/main.3aae1b45.chunk.css.map": "/pages/dev/sars-cov2-simulator/static/css/main.3aae1b45.chunk.css.map",
-    "static/js/2.efa135e3.chunk.js.LICENSE.txt": "/pages/dev/sars-cov2-simulator/static/js/2.efa135e3.chunk.js.LICENSE.txt"
+    "static/css/main.35d2f748.chunk.css.map": "/pages/dev/sars-cov2-simulator/static/css/main.35d2f748.chunk.css.map",
+    "static/js/2.bb5d0097.chunk.js.LICENSE.txt": "/pages/dev/sars-cov2-simulator/static/js/2.bb5d0097.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.aa5c77f4.js",
-    "static/js/2.efa135e3.chunk.js",
-    "static/css/main.3aae1b45.chunk.css",
-    "static/js/main.7849b386.chunk.js"
+    "static/js/2.bb5d0097.chunk.js",
+    "static/css/main.35d2f748.chunk.css",
+    "static/js/main.5e5c7fc1.chunk.js"
   ]
 }
