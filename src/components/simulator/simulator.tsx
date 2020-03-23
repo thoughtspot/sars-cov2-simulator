@@ -4,22 +4,25 @@ import { Grid } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import {Controls} from '../controls/controls';
 import {Chart} from '../chart/chart';
-import {ShutdownRange} from '../shudown-range/shutdown-range';
+import {ShutdownRange, getNumShutdownWeeks} from '../shudown-range/shutdown-range';
 import {useGenerateConfig} from './use-generate-config';
+import {getOptimalWeeks} from './optimal-weeks-generator';
 import {
     MuiPickersUtilsProvider,
  } from '@material-ui/pickers';
+import shortNum from 'short-number';
 import DateFnsUtils from '@date-io/date-fns';
+import { Headline } from '../headline/headline';
 
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     content: {
         flexGrow: 1,
-        flexBasis: 'auto',
+        flexBasis: 0,
         display: 'flex'
     },
-    header: {
+    marginBottom: {
         marginBottom: theme.spacing(2)
     }
   }),
@@ -27,7 +30,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Simulator: React.FC = () => {
     const classes = useStyles();
-    const [chartConfig, onControlChange, onShutdownChange] = useGenerateConfig();
+    const [
+        state, 
+        {config, weeks, weeksToGo},
+        onControlChange, 
+        onShutdownChange] = useGenerateConfig();
+    const [optimalWeeks, setOptimalWeeks] = React.useState<boolean[]>();
+
+    const computeOptimalWeeks = () => {
+        setOptimalWeeks(getOptimalWeeks(state.controls));
+    }
 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -36,11 +48,27 @@ export const Simulator: React.FC = () => {
                     <Controls onChange={onControlChange}></Controls>
                 </Grid>
                 <Grid item direction="column" className={classes.content} spacing={2}>
-                    <Grid item className={classes.header}>
-                        <ShutdownRange onChange={onShutdownChange}></ShutdownRange>
+                    <Grid item className={classes.marginBottom}>
+                        <ShutdownRange
+                            shutdownWeeks={optimalWeeks}
+                            startDate={state.controls.infectionStartDate}
+                            computeOptimalWeeks={computeOptimalWeeks}
+                            onChange={onShutdownChange}></ShutdownRange>
+                    </Grid>
+                    <Grid item container
+                        direction="row" className={classes.marginBottom} spacing={2}>
+                        <Grid item className={classes.content}> 
+                            <Headline title="Total Shutdown" value={`${getNumShutdownWeeks(state.shutdowns)} weeks`}></Headline>
+                        </Grid>
+                        <Grid item className={classes.content}> 
+                            <Headline title="Time before we play" value={`${weeksToGo} weeks`}></Headline>
+                        </Grid>
+                        <Grid item className={classes.content}>
+                            <Headline title="Deaths" value={shortNum(weeks[weeks.length - 1].dead)}></Headline>
+                        </Grid>
                     </Grid>
                     <Grid item className={classes.content}>
-                        <Chart config={chartConfig}></Chart>
+                        <Chart config={config}></Chart>
                     </Grid>
                 </Grid>
             </Grid>

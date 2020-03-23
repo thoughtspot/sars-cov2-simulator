@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from 'react';
 import shortNum from 'short-number';
-import { format } from 'date-fns';
+import { format, differenceInCalendarWeeks } from 'date-fns';
 import { SimulatorInputState, generateData} from './data-generator';
 import { ShutdownRangeState } from '../shudown-range/shutdown-range';
 
@@ -27,12 +27,13 @@ const reducer = (state: SimulatorInputState, action) => {
     }
 }
 
-export const useGenerateConfig = (): any[] => {
+export const useGenerateConfig = (): [SimulatorInputState, any, any, any] => {
     const [state, dispatch] = useReducer(reducer, {
         controls: {},
         shutdowns: []
     });
     return [
+        state,
         generateChartConfig(state),
         (controls) => dispatch({type: Actions.CHANGE_CONTROL, controls}),
         (shutdowns) => dispatch({type: Actions.CHANGE_SHUTDOWN, shutdowns})
@@ -44,26 +45,37 @@ export const useGenerateConfig = (): any[] => {
 
 function generateChartConfig(state: SimulatorInputState) { 
     // TODO: Generate chart config here.
-    let data = generateData(state);
-    let series = createSeries(data);
+    let {weeks, lastWeekNum} = generateData(state);
+    let weeksToGo = getWeeksToGo(lastWeekNum, state.controls.infectionStartDate);
+    let series = createSeries(weeks);
     const options = {
+        subtitle: {
+            text: ''
+        },
         title: {
-          text: ''
+          text: ``,
         },
         yAxis: {
             type: 'logarithmic',
-            title: 'Number of people'
-            
+            title: {
+                text: 'Number of people'
+            },
         },
         xAxis: {
             type: 'datetime',
-            title: 'Date',
+            title: {
+                text: 'Date'
+            },
             gridLineWidth: 1,
-            plotBands: createShutdownBands(state.shutdowns)
+            plotBands: createShutdownBands(state.shutdowns),
+            plotLines: [{
+                value: weeks[lastWeekNum]?.weekStartDate,
+                color: '#013220'
+            }]
         },
         plotOptions: {
             line: {
-                lineWidth: 4
+                lineWidth: 7
             }
         },
         tooltip: {
@@ -76,7 +88,11 @@ function generateChartConfig(state: SimulatorInputState) {
     }
 
     console.log(options);
-    return options;
+    return {
+        config: options,
+        weeks,
+        weeksToGo
+    };
 }
 
 function createShutdownBands(shutdowns: ShutdownRangeState) {
@@ -96,7 +112,7 @@ function createSeries(data) {
         Object.keys(obj).forEach(key => {
             series[key] = series[key] || {name: key, data: [], visible: false};
             series[key].data.push({
-                x: obj.week,
+                x: obj.weekStartDate,
                 y: obj[key]
             });
         });
@@ -108,4 +124,9 @@ function createSeries(data) {
     series['dead'].visible = true;
     series['newInfected'].visible = true;
     return Object.values(series);
+}
+
+function getWeeksToGo(lastWeekNum, startDate) {
+    const currentWeekNum = differenceInCalendarWeeks(new Date(), startDate);
+    return lastWeekNum - currentWeekNum;
 }

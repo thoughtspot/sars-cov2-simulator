@@ -7,6 +7,22 @@ export interface SimulatorInputState {
     shutdowns: ShutdownRangeState;
 }
 
+export class Week {
+    weekStartDate: Date;
+    weekNum: number;
+    healthy: number = 0;
+    newInfected: number = 0;
+    totalInfected: number = 0;
+    currentlyInfected = 0;
+    recovered = 0;
+    dead = 0;
+    hospitalized = 0;
+
+    constructor(params = {}) {
+        Object.assign(this, params);
+    }
+}
+
 export function generateData(state: SimulatorInputState) {
     let {
         totalPopulation,
@@ -17,9 +33,12 @@ export function generateData(state: SimulatorInputState) {
         mortalityRateOverflow,
         hospitalizationRate,
         totalHospitalBeds } = state.controls;
+    mortalityRate = mortalityRate / 100;
+    mortalityRateOverflow = mortalityRateOverflow / 100;
+    hospitalizationRate = hospitalizationRate / 100;
 
-    let data = [{
-        week: infectionStartDate,
+    let weeks = [new Week({
+        weekStartDate: infectionStartDate,
         weekNum: 0,
         healthy: totalPopulation - 1,
         newInfected: 1,
@@ -27,46 +46,51 @@ export function generateData(state: SimulatorInputState) {
         currentlyInfected: 1,
         recovered: 0,
         dead: 0,
-        hospitalized: 0,
-        movingMortalityRate: mortalityRate
-    }];
+        hospitalized: 0
+    })];
+    let lastWeekNum;
 
-    for(let i=1;i<100;i++) {
-        let week = addWeeks(infectionStartDate, i);
-        let multiplier = (isShutdown(week, state.shutdowns))
-         ? shutdownR0 
-         : R0;
-        let previous = data[i-1];
-        let previousPrevious = data[i-2];
-        let pppNewInfected = data[i-3]?.newInfected || 0;
-        let pppcurrentlyInfected = data[i-3]?.currentlyInfected || 0;
+    for(let i=1; i<104; i++) {
+        weeks[i] = new Week();
+        weeks[i].weekStartDate = addWeeks(infectionStartDate, i);
+        let r = (isShutdown(weeks[i].weekStartDate, state.shutdowns))
+            ? shutdownR0 
+            : R0;
 
-        let newInfected = Math.round((previous.healthy/totalPopulation)*previous.newInfected*multiplier);
-        let totalInfected = previous.totalInfected + newInfected;
-        let currentlyInfected = newInfected + previous.newInfected + (previousPrevious?.newInfected || 0);
-        let recovered = Math.round((1 - (previous.movingMortalityRate/100))*pppNewInfected) + previous.recovered;
-        let dead = Math.round(pppNewInfected * previous.movingMortalityRate/100) + previous.dead;
-        let hospitalized = Math.round(pppcurrentlyInfected * hospitalizationRate/100);
-        let movingMortalityRate = (hospitalized < totalHospitalBeds)
+        let fractionHealthy = (weeks[i-1].healthy) / totalPopulation;
+        let mortality = (weeks[i-1].hospitalized < totalHospitalBeds)
             ? mortalityRate
-            : (mortalityRateOverflow*(hospitalized - totalHospitalBeds) + mortalityRate*totalHospitalBeds)/hospitalized;
-        let healthy = totalPopulation - currentlyInfected - recovered - dead;
+            : weightedAverage(mortalityRate, mortalityRateOverflow,
+                totalHospitalBeds, weeks[i-1].hospitalized - totalHospitalBeds);
 
-        data[i] = {
-            week,
-            weekNum: i,
-            newInfected,
-            totalInfected,
-            currentlyInfected,
-            recovered,
-            dead,
-            hospitalized,
-            movingMortalityRate,
-            healthy
+        weeks[i].newInfected = Math.round(weeks[i-1].newInfected * r * fractionHealthy);
+        weeks[i].currentlyInfected = Math.round(weeks[i].newInfected + weeks[i-1].newInfected
+                + ((i >= 2) ? weeks[i-2].newInfected : 0));
+        weeks[i].totalInfected = weeks[i-1].totalInfected + weeks[i].newInfected;
+
+        // 3 weeks later patients either die or recover.
+        if(i >= 3) {
+            weeks[i].dead = Math.round(weeks[i-1].dead + weeks[i - 3].newInfected * mortality);
+            weeks[i].recovered = weeks[i-1].recovered + (weeks[i -3].newInfected *  ( 1 - mortality));
+        }
+        if(i > 2) {
+            weeks[i].hospitalized =  weeks[i -2].newInfected * hospitalizationRate;
+        }
+        weeks[i].healthy = totalPopulation - (weeks[i].currentlyInfected + weeks[i].recovered + weeks[i].dead); 
+
+        if(weeks[i].currentlyInfected === 0 && !lastWeekNum) {
+            lastWeekNum = i;
         }
     }
 
-    return data;
+    return {
+        lastWeekNum,
+        weeks
+    };
+}
+
+export function weightedAverage(p0: number, p1: number, w0: number, w1: number) {
+    return ((p0 * w0) + (p1 * w1)) / (w0 + w1);
 }
 
 function isShutdown(week, shutdowns) {
