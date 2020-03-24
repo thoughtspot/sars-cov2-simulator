@@ -32,6 +32,7 @@ export function generateData(state: SimulatorInputState) {
         shutdownR0,
         mortalityRate,
         mortalityRateOverflow,
+        initialNumberOfCases,
         hospitalizationRate,
         totalHospitalBeds } = state.controls;
     mortalityRate = mortalityRate / 100;
@@ -41,10 +42,10 @@ export function generateData(state: SimulatorInputState) {
     let weeks = [new Week({
         weekStartDate: infectionStartDate,
         weekNum: 0,
-        healthy: totalPopulation - 1,
-        newInfected: 1,
-        totalInfected: 1,
-        currentlyInfected: 1,
+        healthy: totalPopulation - initialNumberOfCases,
+        newInfected: initialNumberOfCases,
+        totalInfected: initialNumberOfCases,
+        currentlyInfected: initialNumberOfCases,
         recovered: 0,
         dead: 0,
         hospitalized: 0
@@ -66,18 +67,18 @@ export function generateData(state: SimulatorInputState) {
             : weightedAverage(mortalityRate, mortalityRateOverflow,
                 totalHospitalBeds, weeks[i-1].hospitalized - totalHospitalBeds);
 
-        weeks[i].newInfected = Math.round(weeks[i-1].newInfected * r * fractionHealthy);
-        weeks[i].currentlyInfected = Math.round(weeks[i].newInfected + weeks[i-1].newInfected
+        weeks[i].newInfected = Math.floor(weeks[i-1].newInfected * r * fractionHealthy);
+        weeks[i].currentlyInfected = Math.floor(weeks[i].newInfected + weeks[i-1].newInfected
                 + ((i >= 2) ? weeks[i-2].newInfected : 0));
         weeks[i].totalInfected = weeks[i-1].totalInfected + weeks[i].newInfected;
 
         // 3 weeks later patients either die or recover.
         if(i >= 3) {
-            weeks[i].dead = Math.round(weeks[i-1].dead + weeks[i - 3].newInfected * mortality);
-            weeks[i].recovered = Math.round(weeks[i-1].recovered + (weeks[i -3].newInfected *  ( 1 - mortality)));
+            weeks[i].dead = Math.floor(weeks[i-1].dead + weeks[i - 3].newInfected * mortality);
+            weeks[i].recovered = Math.floor(weeks[i-1].recovered + (weeks[i -3].newInfected *  ( 1 - mortality)));
         }
         if(i > 2) {
-            weeks[i].hospitalized =  Math.round(weeks[i -2].newInfected * hospitalizationRate);
+            weeks[i].hospitalized =  Math.floor(weeks[i -2].newInfected * hospitalizationRate);
         }
         weeks[i].healthy = totalPopulation - (weeks[i].currentlyInfected + weeks[i].recovered + weeks[i].dead); 
 

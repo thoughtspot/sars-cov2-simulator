@@ -1,5 +1,5 @@
 import { ControlState } from '../controls/controls';
-import { Week, weightedAverage} from './data-generator';
+import { Week, weightedAverage, generateData } from './data-generator';
 import { differenceInCalendarWeeks } from 'date-fns';
 
 export function getOptimalWeeks(state: ControlState) {
@@ -19,7 +19,10 @@ export function getOptimalWeeks(state: ControlState) {
 
     let shutdown = Array(104).fill(false);
 
-    let currentWeekNum = differenceInCalendarWeeks(new Date(), infectionStartDate);
+    if(shutdownR0 < 1) {
+        return getDeprecatingOptimalWeeks(state);
+    }
+
 
     for(let i = 1; i< 104; i++) {
         let current: Week, next: Week, next2: Week;
@@ -39,10 +42,6 @@ export function getOptimalWeeks(state: ControlState) {
         } else {
             shutdown[i] = false;
             weeks[i] = current;
-        }
-
-        if(i === currentWeekNum && shutdownR0 <= 0.9) {
-            
         }
     }
 
@@ -87,4 +86,28 @@ function computeNextWeek(state: ControlState, shutdown: boolean, prev: Week, pre
     } 
     result.healthy = totalPopulation - (result.currentlyInfected + result.recovered + result.dead);
     return result; 
+}
+
+function getDeprecatingOptimalWeeks(state: ControlState) {
+    let {
+        R0,
+        shutdownR0,
+        totalPopulation,
+        totalHospitalBeds,
+        infectionStartDate,
+        mortalityRateOverflow,
+        hospitalizationRate
+    } = state;
+    let { weeks } = generateData({ controls: state, shutdowns: []});
+    let currentWeekNum = differenceInCalendarWeeks(new Date(), infectionStartDate);
+    let currentNewInfected = weeks[currentWeekNum - 1].newInfected;
+
+    let shutdownsToZero = Math.ceil(-Math.log(currentNewInfected) / Math.log(shutdownR0));
+
+    let shutdown = Array(104).fill(false);
+    for(let i = currentWeekNum; i<currentWeekNum + shutdownsToZero - 1; i++) {
+        shutdown[i] = true;
+    }
+
+    return shutdown;
 }

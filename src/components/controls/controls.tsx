@@ -18,6 +18,7 @@ export interface ControlState {
     hospitalizationRate?: number;
     hospitalStayInWeeks?: number;
     infectionStartDate?: Date;
+    initialNumberOfCases?: number;
     totalPopulation?: number;
     totalHospitalBeds?: number;
 }
@@ -30,6 +31,7 @@ enum Actions {
     CHANGE_SLIDER_VALUE,
     CHANGE_START_DATE,
     CHANGE_POPULATION,
+    CHANGE_INITIAL_NUMBER_OF_CASES,
     CHANGE_BEDS
 }
 
@@ -38,6 +40,7 @@ const initialState: ControlState = sliders.reduce((sliderValues, slider) => {
     return sliderValues;
 }, {});
 initialState.infectionStartDate = new Date('1/1/2020');
+initialState.initialNumberOfCases = 1;
 initialState.totalPopulation = 331000000;
 initialState.totalHospitalBeds = 1000000;
 
@@ -79,7 +82,12 @@ function reducer(state, action) {
         case Actions.CHANGE_BEDS:
             return {
                 ...state,
-                totalHospitalBeds: action.value
+                totalHospitalBeds: Number(action.value)
+            }
+        case Actions.CHANGE_INITIAL_NUMBER_OF_CASES:
+            return {
+                ...state,
+                initialNumberOfCases: Number(action.value)
             }
         
         default:
@@ -116,6 +124,13 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
         })
     }
 
+    const onNumberOfCasesChanged = (event) => {
+        dispatch({
+            type: Actions.CHANGE_INITIAL_NUMBER_OF_CASES,
+            value: event.target.value
+        })
+    }
+
     const onBedsChanged = (event) => {
         dispatch({
             type: Actions.CHANGE_BEDS,
@@ -137,7 +152,12 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
                     <Grid item>
                         <KeyboardDatePicker 
                             onChange={onDateChange}
-                            variant="inline" value={state.infectionStartDate} label='Infection Start date'></KeyboardDatePicker>
+                            variant="inline" value={state.infectionStartDate} label='Start date'></KeyboardDatePicker>
+                    </Grid>
+                    <Grid item>
+                        <TextField label="Initial infected people"
+                            onChange={onNumberOfCasesChanged}
+                            value={state.initialNumberOfCases}></TextField>
                     </Grid>
                     <Grid item>
                         <TextField label="Total hospital beds"
