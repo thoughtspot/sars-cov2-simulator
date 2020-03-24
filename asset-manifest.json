@@ -1,22 +1,26 @@
 {
   "files": {
     "main.css": "/pages/dev/sars-cov2-simulator/static/css/main.35d2f748.chunk.css",
-    "main.js": "/pages/dev/sars-cov2-simulator/static/js/main.34567f09.chunk.js",
-    "main.js.map": "/pages/dev/sars-cov2-simulator/static/js/main.34567f09.chunk.js.map",
+    "main.js": "/pages/dev/sars-cov2-simulator/static/js/main.93522837.chunk.js",
+    "main.js.map": "/pages/dev/sars-cov2-simulator/static/js/main.93522837.chunk.js.map",
     "runtime-main.js": "/pages/dev/sars-cov2-simulator/static/js/runtime-main.aa5c77f4.js",
     "runtime-main.js.map": "/pages/dev/sars-cov2-simulator/static/js/runtime-main.aa5c77f4.js.map",
-    "static/js/2.bb5d0097.chunk.js": "/pages/dev/sars-cov2-simulator/static/js/2.bb5d0097.chunk.js",
-    "static/js/2.bb5d0097.chunk.js.map": "/pages/dev/sars-cov2-simulator/static/js/2.bb5d0097.chunk.js.map",
+    "static/css/2.458e2062.chunk.css": "/pages/dev/sars-cov2-simulator/static/css/2.458e2062.chunk.css",
+    "static/js/2.919eba24.chunk.js": "/pages/dev/sars-cov2-simulator/static/js/2.919eba24.chunk.js",
+    "static/js/2.919eba24.chunk.js.map": "/pages/dev/sars-cov2-simulator/static/js/2.919eba24.chunk.js.map",
     "index.html": "/pages/dev/sars-cov2-simulator/index.html",
-    "precache-manifest.b491d6bcec789eb4bbc0789052d8e17d.js": "/pages/dev/sars-cov2-simulator/precache-manifest.b491d6bcec789eb4bbc0789052d8e17d.js",
+    "precache-manifest.3e8539bef752e43b95d6e88e41fcda27.js": "/pages/dev/sars-cov2-simulator/precache-manifest.3e8539bef752e43b95d6e88e41fcda27.js",
     "service-worker.js": "/pages/dev/sars-cov2-simulator/service-worker.js",
+    "static/css/2.458e2062.chunk.css.map": "/pages/dev/sars-cov2-simulator/static/css/2.458e2062.chunk.css.map",
     "static/css/main.35d2f748.chunk.css.map": "/pages/dev/sars-cov2-simulator/static/css/main.35d2f748.chunk.css.map",
-    "static/js/2.bb5d0097.chunk.js.LICENSE.txt": "/pages/dev/sars-cov2-simulator/static/js/2.bb5d0097.chunk.js.LICENSE.txt"
+    "static/js/2.919eba24.chunk.js.LICENSE.txt": "/pages/dev/sars-cov2-simulator/static/js/2.919eba24.chunk.js.LICENSE.txt",
+    "static/media/dx.light.css": "/pages/dev/sars-cov2-simulator/static/media/dxicons.2b145cef.woff"
   },
   "entrypoints": [
     "static/js/runtime-main.aa5c77f4.js",
-    "static/js/2.bb5d0097.chunk.js",
+    "static/css/2.458e2062.chunk.css",
+    "static/js/2.919eba24.chunk.js",
     "static/css/main.35d2f748.chunk.css",
-    "static/js/main.34567f09.chunk.js"
+    "static/js/main.93522837.chunk.js"
   ]
 }
