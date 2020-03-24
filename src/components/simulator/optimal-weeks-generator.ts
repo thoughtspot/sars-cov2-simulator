@@ -1,10 +1,13 @@
 import { ControlState } from '../controls/controls';
 import { Week, weightedAverage} from './data-generator';
+import { differenceInCalendarWeeks } from 'date-fns';
 
 export function getOptimalWeeks(state: ControlState) {
     const {
         totalPopulation,
-        totalHospitalBeds
+        totalHospitalBeds,
+        shutdownR0,
+        infectionStartDate
     } = state;
 
     let weeks = [new Week({
@@ -15,6 +18,8 @@ export function getOptimalWeeks(state: ControlState) {
     })];
 
     let shutdown = Array(104).fill(false);
+
+    let currentWeekNum = differenceInCalendarWeeks(new Date(), infectionStartDate);
 
     for(let i = 1; i< 104; i++) {
         let current: Week, next: Week, next2: Week;
@@ -34,6 +39,10 @@ export function getOptimalWeeks(state: ControlState) {
         } else {
             shutdown[i] = false;
             weeks[i] = current;
+        }
+
+        if(i === currentWeekNum && shutdownR0 <= 0.9) {
+            
         }
     }
 

@@ -4,6 +4,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import {Controls} from '../controls/controls';
 import {Chart} from '../chart/chart';
+import { Table } from '../table/table';
 import {ShutdownRange, getNumShutdownWeeks} from '../shudown-range/shutdown-range';
 import {useGenerateConfig} from './use-generate-config';
 import {getOptimalWeeks} from './optimal-weeks-generator';
@@ -17,16 +18,24 @@ import { Headline } from '../headline/headline';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    content: {
+    grow: {
         flexGrow: 1,
         flexBasis: 0,
         display: 'flex'
+    },
+    content: {
+        flex: '0 0 700px',
+        minHeight: 0,
+        display: 'flex',
+        marginBottom: theme.spacing(2)
     },
     marginBottom: {
         marginBottom: theme.spacing(2)
     }
   }),
 );
+
+const TABLE_COLUMNS = ['weekNum', 'healthy', 'newInfected', 'totalInfected', 'currentlyInfected', 'dead', 'hospitalized'];
 
 export const Simulator: React.FC = () => {
     const classes = useStyles();
@@ -47,7 +56,7 @@ export const Simulator: React.FC = () => {
                 <Grid item>
                     <Controls onChange={onControlChange}></Controls>
                 </Grid>
-                <Grid item direction="column" className={classes.content} spacing={2}>
+                <Grid item direction="column" className={classes.grow} spacing={2}>
                     <Grid item className={classes.marginBottom}>
                         <ShutdownRange
                             shutdownWeeks={optimalWeeks}
@@ -57,18 +66,23 @@ export const Simulator: React.FC = () => {
                     </Grid>
                     <Grid item container
                         direction="row" className={classes.marginBottom} spacing={2}>
-                        <Grid item className={classes.content}> 
+                        <Grid item className={classes.grow}> 
                             <Headline title="Total Shutdown" value={`${getNumShutdownWeeks(state.shutdowns)} weeks`}></Headline>
                         </Grid>
-                        <Grid item className={classes.content}> 
+                        <Grid item className={classes.grow}> 
                             <Headline title="Time before we play" value={`${weeksToGo} weeks`}></Headline>
                         </Grid>
-                        <Grid item className={classes.content}>
+                        <Grid item className={classes.grow}>
                             <Headline title="Deaths" value={shortNum(weeks[weeks.length - 1].dead)}></Headline>
                         </Grid>
                     </Grid>
                     <Grid item className={classes.content}>
                         <Chart config={config}></Chart>
+                    </Grid>
+                    <Grid item className={classes.content}>
+                        <Table
+                            columns={TABLE_COLUMNS} 
+                            data={weeks}></Table>
                     </Grid>
                 </Grid>
             </Grid>

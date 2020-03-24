@@ -16,6 +16,8 @@
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
     "date-fns": "^2.11.0",
+    "devextreme": "^19.2.6",
+    "devextreme-react": "^19.2.6",
     "gh-pages": "^2.2.0",
     "highcharts": "^8.0.4",
     "highcharts-react-official": "^3.0.0",

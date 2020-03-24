@@ -17,6 +17,7 @@ export class Week {
     recovered = 0;
     dead = 0;
     hospitalized = 0;
+    isShutdown: boolean = false;
 
     constructor(params = {}) {
         Object.assign(this, params);
@@ -53,7 +54,9 @@ export function generateData(state: SimulatorInputState) {
     for(let i=1; i<104; i++) {
         weeks[i] = new Week();
         weeks[i].weekStartDate = addWeeks(infectionStartDate, i);
-        let r = (isShutdown(weeks[i].weekStartDate, state.shutdowns))
+        weeks[i].weekNum = i;
+        weeks[i].isShutdown = isShutdown(weeks[i].weekStartDate, state.shutdowns);
+        let r = (weeks[i].isShutdown)
             ? shutdownR0 
             : R0;
 
@@ -71,10 +74,10 @@ export function generateData(state: SimulatorInputState) {
         // 3 weeks later patients either die or recover.
         if(i >= 3) {
             weeks[i].dead = Math.round(weeks[i-1].dead + weeks[i - 3].newInfected * mortality);
-            weeks[i].recovered = weeks[i-1].recovered + (weeks[i -3].newInfected *  ( 1 - mortality));
+            weeks[i].recovered = Math.round(weeks[i-1].recovered + (weeks[i -3].newInfected *  ( 1 - mortality)));
         }
         if(i > 2) {
-            weeks[i].hospitalized =  weeks[i -2].newInfected * hospitalizationRate;
+            weeks[i].hospitalized =  Math.round(weeks[i -2].newInfected * hospitalizationRate);
         }
         weeks[i].healthy = totalPopulation - (weeks[i].currentlyInfected + weeks[i].recovered + weeks[i].dead); 
 
