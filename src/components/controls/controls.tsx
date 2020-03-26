@@ -40,7 +40,7 @@ const initialState: ControlState = sliders.reduce((sliderValues, slider) => {
     return sliderValues;
 }, {});
 initialState.infectionStartDate = new Date('1/1/2020');
-initialState.initialNumberOfCases = 1;
+initialState.initialNumberOfCases = 5;
 initialState.totalPopulation = 331000000;
 initialState.totalHospitalBeds = 1000000;
 
