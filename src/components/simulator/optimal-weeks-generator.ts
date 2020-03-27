@@ -98,7 +98,7 @@ function getDeprecatingOptimalWeeks(state: ControlState) {
         mortalityRateOverflow,
         hospitalizationRate
     } = state;
-    let { weeks } = generateData({ controls: state, shutdowns: []});
+    let { weeks } = generateData({ controls: state, shutdowns: {shutdownWeeks: [], ranges: []}});
     let currentWeekNum = differenceInCalendarWeeks(new Date(), infectionStartDate);
     let currentNewInfected = weeks[currentWeekNum - 1].newInfected;
 

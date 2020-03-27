@@ -23,10 +23,13 @@ export interface Range {
     end: Date
 };
 
-export type ShutdownRangeState = Range[];
+export type ShutdownRangeState = {
+    shutdownWeeks: boolean[];
+    ranges: Range[]
+};
 
 interface Props {
-    onChange: (ranges: Range[]) => void;
+    onChange: (ranges: ShutdownRangeState) => void;
     computeOptimalWeeks: () => void;
     shutdownWeeks?: boolean[];
     startDate?: Date;
@@ -54,46 +57,47 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, computeOptimalWeeks, onChange }) => {
     const classes = useStyles();
-    
-    const [ranges, setRanges] = React.useState<ShutdownRangeState>([{
-        start: new Date(),
-        end: addWeeks(new Date(), 12)
-    }]);
-    const [_shutdownWeeks, setShutdownWeeks] = React.useState([]);
+    const [state, setState] = React.useState({ shutdownWeeks: [], ranges: []})
     const [isWeekView, setIsWeekView] = React.useState(false);
 
-    React.useEffect(() => {
-        onChange(ranges);
-    }, [ranges]);
+    const setShutdownState = (ranges: Range[], shutdownWeeks: boolean[]) => {
+        if(!shutdownWeeks) {
+            shutdownWeeks = getShutdownWeeks(ranges, startDate);
+        }
+
+        if(!ranges) {
+            ranges = getShutdownRanges(startDate, shutdownWeeks);
+        }
+
+        setState({ranges, shutdownWeeks});
+    }
 
     React.useEffect(() => {
-        setShutdownWeeks(getShutdownWeeks(ranges, startDate));
-    }, [isWeekView])
+        onChange(state);
+    }, [state]);
 
     React.useEffect(() => {
         if((!shutdownWeeks || !startDate)) {
             return;
         }
-        const shutdownRanges = getShutdownRanges(startDate, shutdownWeeks);
-        setRanges(shutdownRanges);
-        setShutdownWeeks(shutdownWeeks);
+        setShutdownState(null, shutdownWeeks);
     }, [shutdownWeeks, startDate]);
 
     const addRange = () => {
-        let rangeStart = ranges[ranges.length - 1]?.end || new Date();
+        let rangeStart = state.ranges[state.ranges.length - 1]?.end || new Date();
         const range = {
             start: rangeStart,
             end: rangeStart
         }
-        setRanges([
-            ...ranges,
+        setShutdownState([
+            ...state.ranges,
             range
-        ]);
+        ], null);
     }
 
     const removeRange = (idx: number) => () => {
-        ranges.splice(idx, 1);
-        setRanges([...ranges]);
+        state.ranges.splice(idx, 1);
+        setShutdownState([...state.ranges], null);
     }
 
     const changeRange = range => type => date => {
@@ -101,7 +105,7 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
         if(type === 'start' && range.end < date) {
             range.end = date;
         }
-        setRanges([...ranges]);
+        setShutdownState([...state.ranges], null);
     }
 
     const onWeekViewToggle = (evt) => {
@@ -109,13 +113,11 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
     }
 
     const onWeekToggle = (evt) => {
-        _shutdownWeeks[Number(evt.target.id)] = evt.target.checked;
-        let ranges = getShutdownRanges(startDate, _shutdownWeeks);
-        setShutdownWeeks(_shutdownWeeks);
-        setRanges(ranges);
+        state.shutdownWeeks[Number(evt.target.id)] = evt.target.checked;
+        setShutdownState(null, [...state.shutdownWeeks]);
     }
 
-    const renderRanges = () => ranges.map((range, idx) => <Grid container item direction="row" spacing={4} alignItems="center">
+    const renderRanges = () => state.ranges.map((range, idx) => <Grid container item direction="row" spacing={4} alignItems="center">
         <Grid item><KeyboardDatePicker variant="inline" onChange={changeRange(range)('start')}  value={range.start} label='Start'></KeyboardDatePicker></Grid>
         <Grid item><KeyboardDatePicker variant="inline" onChange={changeRange(range)('end')}  value={range.end} label='End'></KeyboardDatePicker></Grid>
         <Grid item>
@@ -126,7 +128,7 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
     </Grid>);
 
     const renderWeeks = () => <Grid item container direction="row">
-        {_shutdownWeeks.map((week, idx) => 
+        {state.shutdownWeeks.map((week, idx) => 
             <Grid item>
                 <Grid container alignItems="center">
                     <Switch color="primary" id={idx + ''} checked={week} onChange={onWeekToggle}></Switch>
@@ -152,7 +154,7 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
                 <Grid container item className={classes.marginTop} spacing={2} alignItems="center">
                     <Button variant="contained" startIcon={<AddIcon />} onClick={addRange}>Add</Button>
                     <Button variant="contained" className={classes.marginLeft}
-                        startIcon={<RotateLeftIcon />} onClick={_ => setRanges([])}>Reset</Button>
+                        startIcon={<RotateLeftIcon />} onClick={_ => setShutdownState([], null)}>Reset</Button>
                     <Button className={classes.marginLeft}
                         variant="contained" startIcon={<DateRangeIcon />} onClick={computeOptimalWeeks}>Optimize Shutdowns</Button>
                 </Grid>
@@ -193,15 +195,15 @@ function getShutdownWeeks(ranges, startDate) {
     return ranges.reduce((shutdown, range) => {
         let start = differenceInWeeks(range.start, startDate);
         let end = differenceInWeeks(range.end, startDate);
-        for(let i = start; i <= end; i++) {
+        for(let i = start; i < end; i++) {
             shutdown[i] = true;
         }
         return shutdown;
     }, Array(104).fill(false));
 }
 
-export function getNumShutdownWeeks(ranges) {
-    return ranges.reduce((numWeeks, range) => {
-        return numWeeks + eachWeekOfInterval(range).length;
+export function getNumShutdownWeeks(shutdownWeeks: boolean[]) {
+    return shutdownWeeks.reduce((numWeeks, shutdown) => {
+        return numWeeks + ((shutdown) ? 1 : 0);
     }, 0)
 }

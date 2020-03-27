@@ -30,7 +30,10 @@ const reducer = (state: SimulatorInputState, action) => {
 export const useGenerateConfig = (): [SimulatorInputState, any, any, any] => {
     const [state, dispatch] = useReducer(reducer, {
         controls: {},
-        shutdowns: []
+        shutdowns: {
+            ranges: [],
+            shutdownWeeks: []
+        }
     });
     return [
         state,
@@ -67,7 +70,7 @@ function generateChartConfig(state: SimulatorInputState) {
                 text: 'Date'
             },
             gridLineWidth: 1,
-            plotBands: createShutdownBands(state.shutdowns),
+            plotBands: createShutdownBands(state.shutdowns.ranges),
             plotLines: [{
                 value: weeks[lastWeekNum]?.weekStartDate,
                 color: '#013220'
@@ -95,7 +98,7 @@ function generateChartConfig(state: SimulatorInputState) {
     };
 }
 
-function createShutdownBands(shutdowns: ShutdownRangeState) {
+function createShutdownBands(shutdowns: {start: Date, end: Date}[]) {
     return shutdowns.map(s => {
         return {
             color: '#ffcccb',

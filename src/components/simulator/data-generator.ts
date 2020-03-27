@@ -56,7 +56,7 @@ export function generateData(state: SimulatorInputState) {
         weeks[i] = new Week();
         weeks[i].weekStartDate = addWeeks(infectionStartDate, i);
         weeks[i].weekNum = i;
-        weeks[i].isShutdown = isShutdown(weeks[i].weekStartDate, state.shutdowns);
+        weeks[i].isShutdown = state.shutdowns.shutdownWeeks[i];
         let r = (weeks[i].isShutdown)
             ? shutdownR0 
             : R0;

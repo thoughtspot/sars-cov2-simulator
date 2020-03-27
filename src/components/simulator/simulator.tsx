@@ -36,6 +36,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const TABLE_COLUMNS = ['weekNum', 'healthy', 'newInfected', 'totalInfected', 'currentlyInfected', 'dead', 'hospitalized'];
+const initialShutdownWeeks = Array(104).fill(false);
+initialShutdownWeeks[10] = true;
+initialShutdownWeeks[11] = true;
+initialShutdownWeeks[12] = true;
 
 export const Simulator: React.FC = () => {
     const classes = useStyles();
@@ -44,7 +48,7 @@ export const Simulator: React.FC = () => {
         {config, weeks, weeksToGo},
         onControlChange, 
         onShutdownChange] = useGenerateConfig();
-    const [optimalWeeks, setOptimalWeeks] = React.useState<boolean[]>();
+    const [optimalWeeks, setOptimalWeeks] = React.useState<boolean[]>(initialShutdownWeeks);
 
     const computeOptimalWeeks = () => {
         setOptimalWeeks(getOptimalWeeks(state.controls));
@@ -67,7 +71,7 @@ export const Simulator: React.FC = () => {
                     <Grid item container
                         direction="row" className={classes.marginBottom} spacing={2}>
                         <Grid item className={classes.grow}> 
-                            <Headline title="Total Shutdown" value={`${getNumShutdownWeeks(state.shutdowns)} weeks`}></Headline>
+                            <Headline title="Total Shutdown" value={`${getNumShutdownWeeks(state.shutdowns.shutdownWeeks)} weeks`}></Headline>
                         </Grid>
                         <Grid item className={classes.grow}> 
                             <Headline title="Time before we play" value={`${weeksToGo} weeks`}></Headline>
