@@ -34,7 +34,8 @@ export function generateData(state: SimulatorInputState) {
         mortalityRateOverflow,
         initialNumberOfCases,
         hospitalizationRate,
-        totalHospitalBeds } = state.controls;
+        totalHospitalBeds,
+        hospitalStayInWeeks } = state.controls;
     mortalityRate = mortalityRate / 100;
     mortalityRateOverflow = mortalityRateOverflow / 100;
     hospitalizationRate = hospitalizationRate / 100;
@@ -78,7 +79,7 @@ export function generateData(state: SimulatorInputState) {
             weeks[i].recovered = Math.floor(weeks[i-1].recovered + (weeks[i -3].newInfected *  ( 1 - mortality)));
         }
         if(i > 2) {
-            weeks[i].hospitalized =  Math.floor(weeks[i -2].newInfected * hospitalizationRate);
+            weeks[i].hospitalized =  Math.floor(weeks[i -2].newInfected * hospitalizationRate * hospitalStayInWeeks);
         }
         weeks[i].healthy = totalPopulation - (weeks[i].currentlyInfected + weeks[i].recovered + weeks[i].dead); 
 

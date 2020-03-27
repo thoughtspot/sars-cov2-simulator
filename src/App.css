@@ -13,6 +13,10 @@
   }
 }
 
+.MuiTooltip-tooltip {
+  font-size: 12px !important;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

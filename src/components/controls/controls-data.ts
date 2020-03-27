@@ -14,7 +14,7 @@ export const sliders = [
         min: 0,
         max: 3.0,
         step: 0.1,
-        defaultValue: 1.05,
+        defaultValue: 0.6,
         tooltip: 'Average number of people a single person infects\n when we are in a shutdown.'
     },
     {
@@ -51,9 +51,9 @@ export const sliders = [
         title: 'Hospital stay in weeks',
         name: 'hospitalStayInWeeks',
         min: 0,
-        max: 2,
-        step: 0.1,
-        defaultValue: 0.3,
+        max: 3,
+        step: 0.5,
+        defaultValue: 1,
         tooltip: 'Number of weeks a patient needs to stay in the hospital for.'
     }
 ];

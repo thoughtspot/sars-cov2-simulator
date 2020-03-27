@@ -101,12 +101,12 @@ function getDeprecatingOptimalWeeks(state: ControlState) {
     } = state;
     let { weeks } = generateData({ controls: state, shutdowns: {shutdownWeeks: [], ranges: []}});
     let currentWeekNum = differenceInCalendarWeeks(new Date(), infectionStartDate);
-    let currentNewInfected = weeks[currentWeekNum - 1].newInfected;
+    let currentNewInfected = weeks[currentWeekNum ].newInfected;
 
     let shutdownsToZero = Math.ceil(-Math.log(currentNewInfected) / Math.log(shutdownR0));
 
     let shutdown = Array(104).fill(false);
-    for(let i = currentWeekNum; i<currentWeekNum + shutdownsToZero - 1; i++) {
+    for(let i = currentWeekNum; i<currentWeekNum + shutdownsToZero; i++) {
         shutdown[i] = true;
     }
 
