@@ -16,6 +16,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 export interface Range {
@@ -142,7 +143,9 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
         <Paper elevation={3} className={classes.root}>
             <Grid container direction="column" alignItems="flex-start" spacing={2}>
                 <Grid container alignItems="center" justify="space-between">
-                    <Typography className={classes.marginBottom}>Shutdown Dates</Typography>
+                    <Tooltip title="Weeks when we will have a shutdown.">
+                        <Typography className={classes.marginBottom}>Shutdown Dates</Typography>
+                    </Tooltip>
                     <Grid item>
                         <Grid container alignItems="center">
                             <Checkbox color="primary" onChange={onWeekViewToggle}></Checkbox>

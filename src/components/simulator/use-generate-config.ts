@@ -122,8 +122,13 @@ function createSeries(data) {
     });
     delete series['week'];
     delete series['weekNum'];
+    delete series['healthy'];
+    delete series['weekStartDate'];
+    delete series['recovered'];
+    delete series['isShutdown'];
+    delete series['currentlyInfected'];
 
-    series['totalInfected'].visible = true;
+    series['hospitalized'].visible = true;
     series['dead'].visible = true;
     series['newInfected'].visible = true;
     return Object.values(series);

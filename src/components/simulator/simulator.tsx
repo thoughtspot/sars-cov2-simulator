@@ -71,13 +71,19 @@ export const Simulator: React.FC = () => {
                     <Grid item container
                         direction="row" className={classes.marginBottom} spacing={2}>
                         <Grid item className={classes.grow}> 
-                            <Headline title="Total Shutdown" value={`${getNumShutdownWeeks(state.shutdowns.shutdownWeeks)} weeks`}></Headline>
+                            <Headline title="Total Shutdown"
+                                tooltip="Total number of weeks of shutdown"
+                                value={`${getNumShutdownWeeks(state.shutdowns.shutdownWeeks)} weeks`}></Headline>
                         </Grid>
                         <Grid item className={classes.grow}> 
-                            <Headline title="Time before we play" value={`${weeksToGo} weeks`}></Headline>
+                            <Headline 
+                                tooltip="Number of weeks to complete irradication of coronavirus."
+                                title="Time before we play again" value={(!isNaN(weeksToGo)) ? `${weeksToGo} weeks` : `> 2 years`}></Headline>
                         </Grid>
                         <Grid item className={classes.grow}>
-                            <Headline title="Deaths" value={shortNum(weeks[weeks.length - 1].dead)}></Headline>
+                            <Headline title="Deaths"
+                                 tooltip="Number of people expected to die."
+                                 value={shortNum(weeks[weeks.length - 1].dead)}></Headline>
                         </Grid>
                     </Grid>
                     <Grid item className={classes.content}>
