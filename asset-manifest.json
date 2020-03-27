@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/sars-cov2-simulator/static/css/main.e2823eb3.chunk.css",
-    "main.js": "/sars-cov2-simulator/static/js/main.fe281588.chunk.js",
-    "main.js.map": "/sars-cov2-simulator/static/js/main.fe281588.chunk.js.map",
+    "main.js": "/sars-cov2-simulator/static/js/main.a96969b1.chunk.js",
+    "main.js.map": "/sars-cov2-simulator/static/js/main.a96969b1.chunk.js.map",
     "runtime-main.js": "/sars-cov2-simulator/static/js/runtime-main.af6f2efc.js",
     "runtime-main.js.map": "/sars-cov2-simulator/static/js/runtime-main.af6f2efc.js.map",
     "static/css/2.3a8035b0.chunk.css": "/sars-cov2-simulator/static/css/2.3a8035b0.chunk.css",
     "static/js/2.c0d2c9e0.chunk.js": "/sars-cov2-simulator/static/js/2.c0d2c9e0.chunk.js",
     "static/js/2.c0d2c9e0.chunk.js.map": "/sars-cov2-simulator/static/js/2.c0d2c9e0.chunk.js.map",
     "index.html": "/sars-cov2-simulator/index.html",
-    "precache-manifest.49ebb63a4a0e86a4b1c7d9c144ba6461.js": "/sars-cov2-simulator/precache-manifest.49ebb63a4a0e86a4b1c7d9c144ba6461.js",
+    "precache-manifest.ecc949deda614043bdedcf9380e35284.js": "/sars-cov2-simulator/precache-manifest.ecc949deda614043bdedcf9380e35284.js",
     "service-worker.js": "/sars-cov2-simulator/service-worker.js",
     "static/css/2.3a8035b0.chunk.css.map": "/sars-cov2-simulator/static/css/2.3a8035b0.chunk.css.map",
     "static/css/main.e2823eb3.chunk.css.map": "/sars-cov2-simulator/static/css/main.e2823eb3.chunk.css.map",
@@ -21,6 +21,6 @@
     "static/css/2.3a8035b0.chunk.css",
     "static/js/2.c0d2c9e0.chunk.js",
     "static/css/main.e2823eb3.chunk.css",
-    "static/js/main.fe281588.chunk.js"
+    "static/js/main.a96969b1.chunk.js"
   ]
 }
