@@ -9,7 +9,6 @@ import shortNum from 'short-number';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: theme.spacing(4),
       width: '100%',
       height: '100%'
     },
@@ -47,7 +46,7 @@ export const Table: React.FC<Props> = ({ columns, data }) => {
         return cellInfo.value + '';
     }
 
-    return <Paper elevation={3} className={classes.root}>
+    return <div className={classes.root}>
         <DataGrid
             elementAttr={{
                 class: classes.gridContainer
@@ -64,5 +63,5 @@ export const Table: React.FC<Props> = ({ columns, data }) => {
                 customizeText={customizeCellValue}/>)}
             <Scrolling mode="virtual" />
         </DataGrid>
-    </Paper>
+    </div>
 }

@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import qs from 'query-string';
 import './App.css';
 
 import {Simulator} from './components/simulator/simulator';
@@ -27,13 +28,15 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   }),
 );
+const urlParams = qs.parse(window.location.search);
 
 function App() {
   const classes = useStyles();
+  const isEmbed = !!urlParams.embed;
 
   return (
     <div className="App">
-      <AppBar position="static">
+      {!isEmbed && <AppBar position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
@@ -42,7 +45,7 @@ function App() {
             COVID Simulator
           </Typography>
         </Toolbar>
-      </AppBar>
+      </AppBar>}
       <Container maxWidth='lg' className={classes.container}>
         <Simulator />
       </Container>

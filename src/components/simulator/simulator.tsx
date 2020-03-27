@@ -12,6 +12,9 @@ import {
     MuiPickersUtilsProvider,
  } from '@material-ui/pickers';
 import shortNum from 'short-number';
+import Switch from '@material-ui/core/Switch';
+import { Paper, Typography } from '@material-ui/core';
+
 import DateFnsUtils from '@date-io/date-fns';
 import { Headline } from '../headline/headline';
 
@@ -21,17 +24,23 @@ const useStyles = makeStyles((theme: Theme) =>
     grow: {
         flexGrow: 1,
         flexBasis: 0,
-        display: 'flex'
+        minHeight: 0
+    },
+    contentContainer: {
+        flex: '1 0 0',
+        height: 720,
+        marginBottom: theme.spacing(2)
     },
     content: {
-        flex: '0 0 700px',
+        padding: theme.spacing(4),
+        flex: '1 1 0',
         minHeight: 0,
         display: 'flex',
-        marginBottom: theme.spacing(2)
+        flexDirection: 'column'
     },
     marginBottom: {
         marginBottom: theme.spacing(2)
-    }
+    },
   }),
 );
 
@@ -40,6 +49,9 @@ const initialShutdownWeeks = Array(104).fill(false);
 initialShutdownWeeks[10] = true;
 initialShutdownWeeks[11] = true;
 initialShutdownWeeks[12] = true;
+initialShutdownWeeks[20] = true;
+initialShutdownWeeks[21] = true;
+initialShutdownWeeks[22] = true;
 
 export const Simulator: React.FC = () => {
     const classes = useStyles();
@@ -49,6 +61,7 @@ export const Simulator: React.FC = () => {
         onControlChange, 
         onShutdownChange] = useGenerateConfig();
     const [optimalWeeks, setOptimalWeeks] = React.useState<boolean[]>(initialShutdownWeeks);
+    const [isTableView, setIsTableView] = React.useState(false);
 
     const computeOptimalWeeks = () => {
         setOptimalWeeks(getOptimalWeeks(state.controls));
@@ -57,11 +70,11 @@ export const Simulator: React.FC = () => {
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid container spacing={2} direction='row'>
-                <Grid item>
+                <Grid item >
                     <Controls onChange={onControlChange}></Controls>
                 </Grid>
-                <Grid item direction="column" className={classes.grow} spacing={2}>
-                    <Grid item className={classes.marginBottom}>
+                <Grid container item direction="column" className={classes.grow} spacing={2}>
+                    <Grid item >
                         <ShutdownRange
                             shutdownWeeks={optimalWeeks}
                             startDate={state.controls.infectionStartDate}
@@ -69,7 +82,7 @@ export const Simulator: React.FC = () => {
                             onChange={onShutdownChange}></ShutdownRange>
                     </Grid>
                     <Grid item container
-                        direction="row" className={classes.marginBottom} spacing={2}>
+                        direction="row"  spacing={2}>
                         <Grid item className={classes.grow}> 
                             <Headline title="Total Shutdown"
                                 tooltip="Total number of weeks of shutdown"
@@ -86,13 +99,21 @@ export const Simulator: React.FC = () => {
                                  value={shortNum(weeks[weeks.length - 1].dead)}></Headline>
                         </Grid>
                     </Grid>
-                    <Grid item className={classes.content}>
-                        <Chart config={config}></Chart>
-                    </Grid>
-                    <Grid item className={classes.content}>
-                        <Table
-                            columns={TABLE_COLUMNS} 
-                            data={weeks}></Table>
+                    <Grid item container direction="column" className={classes.contentContainer}>
+                        <Paper elevation={3} className={classes.content}>
+                            <Grid container direction="column" wrap="nowrap" className={classes.grow}>
+                                <Grid item style={{ marginLeft: 'auto'}}>
+                                    <Typography variant="caption">Table View</Typography>
+                                    <Switch color="primary" id='switcher' checked={isTableView} onChange={() => setIsTableView(!isTableView)}></Switch>
+                                </Grid>
+                                <Grid item className={classes.grow} style={{ display: 'flex', flexDirection: 'column'}}>
+                                    {(isTableView) ? <Table
+                                        columns={TABLE_COLUMNS} 
+                                        data={weeks}></Table>
+                                        : <Chart config={config}></Chart>}
+                                </Grid>
+                            </Grid>
+                        </Paper>
                     </Grid>
                 </Grid>
             </Grid>

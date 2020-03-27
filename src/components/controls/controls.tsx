@@ -56,10 +56,14 @@ const useStyles = makeStyles((theme: Theme) =>
     divider: {
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2)
+    },
+    title: {
+        paddingBottom: 0
     }
   }),
 );
 
+const textItemStyle = { paddingTop: 20, paddingBottom: 20 };
 
 
 function reducer(state, action) {
@@ -141,20 +145,20 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
     return (
             <Paper elevation={3} className={classes.root}>
                 <Grid container direction="column" alignItems="flex-start" spacing={8}>
-                    <Grid item>
+                    <Grid item style={{ paddingBottom: 0 }}>
                         <Typography>Control Values</Typography>
                     </Grid>
-                    <Grid item>
+                    <Grid item style={textItemStyle}>
                         <TextField label="Total population"
                             onChange={onPopulationChange}
                             value={state.totalPopulation}></TextField>
                     </Grid>
-                    <Grid item>
+                    <Grid item style={textItemStyle}>
                         <KeyboardDatePicker 
                             onChange={onDateChange}
                             variant="inline" value={state.infectionStartDate} label='Start date'></KeyboardDatePicker>
                     </Grid>
-                    <Grid item>
+                    <Grid item style={textItemStyle}>
                         <TextField label="Initial infected people"
                             onChange={onNumberOfCasesChanged}
                             value={state.initialNumberOfCases}></TextField>

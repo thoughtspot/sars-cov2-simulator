@@ -7,14 +7,15 @@ export function getOptimalWeeks(state: ControlState) {
         totalPopulation,
         totalHospitalBeds,
         shutdownR0,
-        infectionStartDate
+        infectionStartDate,
+        initialNumberOfCases
     } = state;
 
     let weeks = [new Week({
-        newInfected: 1,
-        totalInfected: 1,
-        currentlyInfected: 1,
-        healthy: totalPopulation - 1
+        newInfected: initialNumberOfCases,
+        totalInfected: initialNumberOfCases,
+        currentlyInfected: initialNumberOfCases,
+        healthy: totalPopulation - initialNumberOfCases
     })];
 
     let shutdown = Array(104).fill(false);
