@@ -46,21 +46,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const TABLE_COLUMNS = ['weekNum', 'healthy', 'newInfected', 'totalInfected', 'currentlyInfected', 'dead', 'hospitalized'];
 const initialShutdownWeeks = Array(104).fill(false);
-<<<<<<< HEAD
-initialShutdownWeeks[10] = true;
-initialShutdownWeeks[11] = true;
-initialShutdownWeeks[12] = true;
-initialShutdownWeeks[20] = true;
-initialShutdownWeeks[21] = true;
-initialShutdownWeeks[22] = true;
-=======
 for(let i = 14;i<30;i++) {
     initialShutdownWeeks[i] = true;
 }
 for(let i = 36;i<51;i++) {
     initialShutdownWeeks[i] = true;
 }
->>>>>>> Style changes
 
 export const Simulator: React.FC = () => {
     const classes = useStyles();

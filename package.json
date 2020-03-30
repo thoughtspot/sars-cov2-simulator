@@ -33,8 +33,9 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "npm run generate-data; react-scripts start",
+    "generate-data": "csvtojson scripts/icu-data.csv > src/generated-data/icu-data.json",
+    "build": "npm run generate-data; react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
