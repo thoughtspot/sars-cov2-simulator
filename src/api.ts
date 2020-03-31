@@ -4,8 +4,8 @@ import {default as stateCodeMapping} from "./generated-data/us-country-code-data
 
 let USStateInfectedData = new Map();
 let countryInfectedData = new Map();
-export let USStatePopulationData = new Map();
-export let countryPopulationData = new Map();
+export let USStateData = new Map();
+export let countryData = new Map();
 let stateCodeMap = new Map();
 export const UnitedStates= "USA";
 
@@ -14,7 +14,7 @@ export const useInitCovidData = () => {
     if(loaded) {
         return loaded;
     }
-    initPopulationData();
+    initData();
     initStateMappingCode();
     initCovidData()
         .then(() => {
@@ -27,15 +27,23 @@ export const getCovidData = (placeName: string) => {
     return parseInt(USStateInfectedData.get(placeName) || countryInfectedData.get(placeName) || 0);
 };
 
-export const getPopulationData = (placeName: string) => {
-    return parseInt(countryPopulationData.get(placeName) || USStatePopulationData.get(placeName));
+export const getData = (placeName: string) => {
+    return countryData.get(placeName) || USStateData.get(placeName);
 };
 
-function initPopulationData() {
+function initData() {
     countryStateData.forEach(value => {
          value.country != value.state
-             ? USStatePopulationData.set(value.state, value.population)
-             : countryPopulationData.set(value.country,value.population);
+             ? USStateData.set(value.state, {
+                 population: value.population,
+                 hospitalBeds: value.hospitalBeds,
+                 icuBeds: value.icuBeds
+             })
+             : countryData.set(value.country,{
+                 population: value.population,
+                 hospitalBeds: value.hospitalBeds,
+                 icuBeds: value.icuBeds
+             });
     });
 }
 
