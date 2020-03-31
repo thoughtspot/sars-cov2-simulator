@@ -11,6 +11,7 @@ import './App.css';
 
 import {Simulator} from './components/simulator/simulator';
 import { Container } from '@material-ui/core';
+import {useInitCovidData} from "./api";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,6 +33,7 @@ const urlParams = qs.parse(window.location.search);
 
 function App() {
   const classes = useStyles();
+  const covidDataLoaded = useInitCovidData();
   const isEmbed = !!urlParams.embed;
 
   return (
@@ -47,7 +49,7 @@ function App() {
         </Toolbar>
       </AppBar>}
       <Container maxWidth='lg' className={classes.container}>
-        <Simulator />
+          {(covidDataLoaded) ? <Simulator /> : <div>Loading ...</div>}
       </Container>
     </div>
   );
