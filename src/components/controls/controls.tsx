@@ -12,7 +12,7 @@ import {sliders} from './controls-data';
 import RegionSelect from "../region-select/region-select";
 import {
     getCovidData,
-    getData,
+    getDemographicsData,
     UnitedStates
 } from "../../api";
 
@@ -110,7 +110,7 @@ function reducer(state, action) {
 export const Controls: React.FC<Props> = ({ onChange }) => {
     const classes = useStyles();
     initialState.initialNumberOfCases = getCovidData(UnitedStates);
-    let data = getData(UnitedStates);
+    let data = getDemographicsData(UnitedStates);
     initialState.totalPopulation = data.population;
     initialState.totalHospitalBeds = data.hospitalBeds;
     initialState.totalICUBeds = data.icuBeds;
@@ -165,7 +165,7 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
 
     const onRegionChanged = (event) => {
         let placeName = event.target.value;
-        let data = getData(placeName);
+        let data = getDemographicsData(placeName);
         onPopulationChange(undefined, data.population);
         onBedsChanged(undefined, data.hospitalBeds);
         onICUBedsChanged(undefined, data.icuBeds);

@@ -27,7 +27,7 @@ export const getCovidData = (placeName: string) => {
     return parseInt(USStateInfectedData.get(placeName) || countryInfectedData.get(placeName) || 0);
 };
 
-export const getData = (placeName: string) => {
+export const getDemographicsData = (placeName: string) => {
     return countryData.get(placeName) || USStateData.get(placeName);
 };
 
