@@ -111,8 +111,8 @@ export const Simulator: React.FC = () => {
                                 title="Time before the virus dies" value={(!isNaN(weeksToGo)) ? `${weeksToGo} weeks` : `> 2 years`}></Headline>
                         </Grid>
                         <Grid item className={classes.grow}>
-                            <Headline title="Deaths"
-                                 tooltip="Number of people expected to die."
+                            <Headline title="Approximate Deaths"
+                                 tooltip="Number of people expected to die due to the Virus."
                                  value={shortNum(weeks[weeks.length - 1].dead)}></Headline>
                         </Grid>
                     </Grid>
