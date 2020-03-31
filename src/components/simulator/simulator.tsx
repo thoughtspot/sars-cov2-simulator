@@ -69,10 +69,19 @@ export const Simulator: React.FC = () => {
         onShutdownChange] = useGenerateConfig();
     const [optimalWeeks, setOptimalWeeks] = React.useState<boolean[]>(initialShutdownWeeks);
     const [isTableView, setIsTableView] = React.useState(false);
+    const [doNotOptimize, setDoNotOptimize] = React.useState(false);
 
     const computeOptimalWeeks = () => {
         setOptimalWeeks(getOptimalWeeks(state.controls));
     }
+
+    React.useEffect(() => {
+        if(doNotOptimize) {
+            return;
+        }
+
+        setOptimalWeeks(getOptimalWeeks(state.controls));
+    }, [state.controls])
 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -86,6 +95,7 @@ export const Simulator: React.FC = () => {
                             shutdownWeeks={optimalWeeks}
                             startDate={state.controls.infectionStartDate}
                             computeOptimalWeeks={computeOptimalWeeks}
+                            onDoNotOptimizeToggle={setDoNotOptimize}
                             onChange={onShutdownChange}></ShutdownRange>
                     </Grid>
                     <Grid item container

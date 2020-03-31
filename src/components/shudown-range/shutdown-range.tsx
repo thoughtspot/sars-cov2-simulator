@@ -34,6 +34,7 @@ interface Props {
     computeOptimalWeeks: () => void;
     shutdownWeeks?: boolean[];
     startDate?: Date;
+    onDoNotOptimizeToggle?: (optimize: boolean) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -56,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, computeOptimalWeeks, onChange }) => {
+export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, computeOptimalWeeks, onChange, onDoNotOptimizeToggle }) => {
     const classes = useStyles();
     const [state, setState] = React.useState({ shutdownWeeks: [], ranges: []})
     const [isWeekView, setIsWeekView] = React.useState(false);
@@ -118,6 +119,10 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
         setShutdownState(null, [...state.shutdownWeeks]);
     }
 
+    const onDoNotOptimize = (evt) => {
+        onDoNotOptimizeToggle(evt.target.checked);
+    }
+
     const renderRanges = () => state.ranges.map((range, idx) => <Grid container item direction="row" spacing={4} alignItems="center">
         <Grid item><KeyboardDatePicker variant="inline" onChange={changeRange(range)('start')}  value={range.start} label='Start'></KeyboardDatePicker></Grid>
         <Grid item><KeyboardDatePicker variant="inline" onChange={changeRange(range)('end')}  value={range.end} label='End'></KeyboardDatePicker></Grid>
@@ -148,6 +153,8 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
                     </Tooltip>
                     <Grid item>
                         <Grid container alignItems="center">
+                            <Checkbox color="primary" onChange={onDoNotOptimize}></Checkbox>
+                            <Typography variant="body2">Do not optimize</Typography>
                             <Checkbox color="primary" onChange={onWeekViewToggle}></Checkbox>
                             <Typography variant="body2">Week view</Typography>
                         </Grid>
@@ -158,8 +165,8 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
                     <Button variant="contained" startIcon={<AddIcon />} onClick={addRange}>Add</Button>
                     <Button variant="contained" className={classes.marginLeft}
                         startIcon={<RotateLeftIcon />} onClick={_ => setShutdownState([], null)}>Reset</Button>
-                    <Button className={classes.marginLeft}
-                        variant="contained" startIcon={<DateRangeIcon />} onClick={computeOptimalWeeks}>Optimize Shutdowns</Button>
+                    {/* <Button className={classes.marginLeft}
+                        variant="contained" startIcon={<DateRangeIcon />} onClick={computeOptimalWeeks}>Optimize Shutdowns</Button> */}
                 </Grid>
             </Grid>
         </Paper>
