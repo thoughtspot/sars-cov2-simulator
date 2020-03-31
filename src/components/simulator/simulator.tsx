@@ -64,7 +64,7 @@ export const Simulator: React.FC = () => {
     const classes = useStyles();
     const [
         state, 
-        {config, weeks, weeksToGo},
+        {config, weeks, weeksToGo, maxICUBeds},
         onControlChange, 
         onShutdownChange] = useGenerateConfig();
     const [optimalWeeks, setOptimalWeeks] = React.useState<boolean[]>(initialShutdownWeeks);
@@ -114,6 +114,11 @@ export const Simulator: React.FC = () => {
                             <Headline title="Approximate Deaths"
                                  tooltip="Number of people expected to die due to the Virus."
                                  value={shortNum(weeks[weeks.length - 1].dead)}></Headline>
+                        </Grid>
+                        <Grid item className={classes.grow}>
+                            <Headline title="ICU Beds needed"
+                                 tooltip="Number of beds short in the ICU to support the pandemic."
+                                 value={shortNum(maxICUBeds)}></Headline>
                         </Grid>
                     </Grid>
                     <Grid item container direction="column" className={classes.contentContainer}>

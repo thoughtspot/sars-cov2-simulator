@@ -49,7 +49,7 @@ export const useGenerateConfig = (): [SimulatorInputState, any, any, any] => {
 
 function generateChartConfig(state: SimulatorInputState) { 
     // TODO: Generate chart config here.
-    let {weeks, lastWeekNum} = generateData(state);
+    let {weeks, lastWeekNum, maxICUBeds} = generateData(state);
     let weeksToGo = getWeeksToGo(lastWeekNum, state.controls.infectionStartDate);
     let series = createSeries(weeks);
     const options = {
@@ -110,7 +110,8 @@ function generateChartConfig(state: SimulatorInputState) {
     return {
         config: options,
         weeks,
-        weeksToGo
+        weeksToGo,
+        maxICUBeds
     };
 }
 

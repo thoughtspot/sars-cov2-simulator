@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
         padding: theme.spacing(2),
         paddingRight: theme.spacing(4),
         flexGrow: 1,
-        minWidth: 200
+        minWidth: 170
     },
     marginBottom: {
         marginBottom: theme.spacing(2)
@@ -42,7 +42,7 @@ export const Headline: React.FC<Props> = ({ title, value, tooltip }) => {
         <Tooltip title={tooltip}>
             <Grid container direction="column" alignItems="flex-start" spacing={3}>
                 <Grid item>
-                    <Typography variant="body1">{title}</Typography>
+                    <Typography variant="body2">{title}</Typography>
                 </Grid>
                 <Grid item>
                     <Typography variant="h5">{value}</Typography>

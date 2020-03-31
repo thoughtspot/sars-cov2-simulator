@@ -51,7 +51,7 @@ export function generateData(state: SimulatorInputState) {
         dead: 0,
         hospitalized: 0
     })];
-    let lastWeekNum;
+    let lastWeekNum, maxICUBeds = 0;
 
     for(let i=1; i<104; i++) {
         weeks[i] = new Week();
@@ -83,6 +83,10 @@ export function generateData(state: SimulatorInputState) {
         }
         weeks[i].healthy = totalPopulation - (weeks[i].currentlyInfected + weeks[i].recovered + weeks[i].dead); 
 
+        if(weeks[i].hospitalized * 0.4 > maxICUBeds) {
+            maxICUBeds = Math.round(weeks[i].hospitalized * 0.4);
+        }
+
         if(weeks[i].currentlyInfected === 0 && !lastWeekNum) {
             lastWeekNum = i;
         }
@@ -90,7 +94,8 @@ export function generateData(state: SimulatorInputState) {
 
     return {
         lastWeekNum,
-        weeks
+        weeks,
+        maxICUBeds
     };
 }
 
