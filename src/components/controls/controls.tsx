@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const textItemStyle = { paddingTop: 20, paddingBottom: 20 };
+const textItemStyle = { paddingTop: 12, paddingBottom: 12 };
 
 
 function reducer(state, action) {
@@ -158,11 +158,8 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
     return (
             <Paper elevation={3} className={classes.root}>
                 <Grid container direction="column" alignItems="flex-start" spacing={8}>
-                    <Grid item style={{ paddingBottom: 0 }}>
-                        <Typography>Control Values</Typography>
-                    </Grid>
-                    <Grid item style={textItemStyle}>
-                        <RegionSelect onChange={onRegionChanged} label="Place"></RegionSelect>
+                    <Grid item style={{...textItemStyle, paddingTop: 20}}>
+                        <RegionSelect onChange={onRegionChanged} label="Country / State"></RegionSelect>
                     </Grid>
                     <Grid item style={textItemStyle}>
                         <TextField label="Total population"
