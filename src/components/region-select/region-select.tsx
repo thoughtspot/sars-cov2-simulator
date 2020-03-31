@@ -3,7 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {countryPopulationData, UnitedStates, USStatePopulationData} from "../../api";
+import {countryData, UnitedStates, USStateData} from "../../api";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -31,10 +31,10 @@ export default function RegionSelect(props) {
                 <Select native defaultValue="United States" onChange={props.onChange}>
                     <option value={UnitedStates}>{UnitedStates}</option>
                     <optgroup label="States in USA">
-                        { createRegionData(USStatePopulationData)}
+                        {createRegionData(USStateData)}
                     </optgroup>
                     <optgroup label="Countries">
-                        {createRegionData(countryPopulationData)}
+                        {createRegionData(countryData)}
                     </optgroup>
                 </Select>
             </FormControl>

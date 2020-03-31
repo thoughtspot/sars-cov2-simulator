@@ -11,9 +11,8 @@ import {Slider} from '../slider/slider';
 import {sliders} from './controls-data';
 import RegionSelect from "../region-select/region-select";
 import {
-    countryPopulationData,
     getCovidData,
-    getPopulationData,
+    getDemographicsData,
     UnitedStates
 } from "../../api";
 
@@ -28,6 +27,7 @@ export interface ControlState {
     initialNumberOfCases?: number;
     totalPopulation?: number;
     totalHospitalBeds?: number;
+    totalICUBeds?: number;
 }
 
 interface Props {
@@ -39,7 +39,8 @@ enum Actions {
     CHANGE_START_DATE,
     CHANGE_POPULATION,
     CHANGE_INITIAL_NUMBER_OF_CASES,
-    CHANGE_BEDS
+    CHANGE_BEDS,
+    CHANGE_ICU_BEDS
 }
 
 const initialState: ControlState = sliders.reduce((sliderValues, slider) => {
@@ -47,8 +48,6 @@ const initialState: ControlState = sliders.reduce((sliderValues, slider) => {
     return sliderValues;
 }, {});
 initialState.infectionStartDate = new Date();
-initialState.totalPopulation = countryPopulationData.get(UnitedStates);
-initialState.totalHospitalBeds = 1000000;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -97,6 +96,11 @@ function reducer(state, action) {
                 ...state,
                 initialNumberOfCases: Number(action.value)
             }
+        case Actions.CHANGE_ICU_BEDS:
+            return {
+                ...state,
+                totalICUBeds: Number(action.value)
+            }
         
         default:
             return state;
@@ -106,7 +110,10 @@ function reducer(state, action) {
 export const Controls: React.FC<Props> = ({ onChange }) => {
     const classes = useStyles();
     initialState.initialNumberOfCases = getCovidData(UnitedStates);
-    initialState.totalPopulation = getPopulationData(UnitedStates);
+    let data = getDemographicsData(UnitedStates);
+    initialState.totalPopulation = data.population;
+    initialState.totalHospitalBeds = data.hospitalBeds;
+    initialState.totalICUBeds = data.icuBeds;
     const [state, dispatch] = React.useReducer(reducer, initialState);
 
     useEffect(() => {
@@ -142,16 +149,26 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
         })
     };
 
-    const onBedsChanged = (event) => {
+    const onBedsChanged = (event, value?) => {
         dispatch({
             type: Actions.CHANGE_BEDS,
-            value: event.target.value
+            value: value||event.target.value
+        })
+    };
+
+    const onICUBedsChanged = (event, value?) => {
+        dispatch({
+            type: Actions.CHANGE_ICU_BEDS,
+            value: value||event.target.value
         })
     };
 
     const onRegionChanged = (event) => {
         let placeName = event.target.value;
-        onPopulationChange(undefined, getPopulationData(placeName));
+        let data = getDemographicsData(placeName);
+        onPopulationChange(undefined, data.population);
+        onBedsChanged(undefined, data.hospitalBeds);
+        onICUBedsChanged(undefined, data.icuBeds);
         onNumberOfCasesChanged(undefined, getCovidData(placeName));
     };
 
@@ -176,10 +193,15 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
                             onChange={onNumberOfCasesChanged}
                             value={state.initialNumberOfCases}></TextField>
                     </Grid>
-                    <Grid item>
+                    <Grid item style={textItemStyle}>
                         <TextField label="Approx. hospital beds"
                             onChange={onBedsChanged}
                             value={state.totalHospitalBeds}></TextField>
+                    </Grid>
+                    <Grid item >
+                        <TextField label="Approx. ICU  beds"
+                                   onChange={onICUBedsChanged}
+                                   value={state.totalICUBeds}></TextField>
                     </Grid>
                     {sliders.map(slider => <Grid item key={slider.name}>
                         <Slider {...slider} onChange={onSliderChange}></Slider>
