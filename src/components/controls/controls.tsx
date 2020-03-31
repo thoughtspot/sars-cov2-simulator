@@ -50,8 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       paddingTop: theme.spacing(4),
       paddingLeft: theme.spacing(6),
-      paddingRight: theme.spacing(2),
-      width: 250
+      paddingRight: theme.spacing(2)
     },
     divider: {
         marginTop: theme.spacing(2),

@@ -3,6 +3,7 @@ import shortNum from 'short-number';
 import { format, differenceInCalendarWeeks } from 'date-fns';
 import { SimulatorInputState, generateData} from './data-generator';
 import { ShutdownRangeState } from '../shudown-range/shutdown-range';
+import { MOBILE_WIDTH } from '../../services/viewport-service';
 
 enum Actions {
     CHANGE_CONTROL,
@@ -63,6 +64,7 @@ function generateChartConfig(state: SimulatorInputState) {
             title: {
                 text: 'Number of people'
             },
+            gridLineWidth: 1,
         },
         xAxis: {
             type: 'datetime',
@@ -86,6 +88,20 @@ function generateChartConfig(state: SimulatorInputState) {
                 return `<b>${this.series.name}</b>:${shortNum(this.y)} <br>` +
                     `${format(this.x, 'do MMM y')}`;
             }
+        },
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: MOBILE_WIDTH
+                },
+                chartOptions: {
+                    plotOptions: {
+                        line: {
+                            lineWidth: 3
+                        }
+                    }
+                }
+            }]
         },
         series
     }

@@ -12,7 +12,7 @@
 /build
 
 # generated data
-/src/data/*.json
+src/data/*.json
 
 # misc
 .DS_Store

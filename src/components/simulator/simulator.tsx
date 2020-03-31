@@ -17,10 +17,14 @@ import { Paper, Typography } from '@material-ui/core';
 
 import DateFnsUtils from '@date-io/date-fns';
 import { Headline } from '../headline/headline';
+import { isMobile } from '../../services/viewport-service';
 
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    leftPanel: {
+        flex: (isMobile()) ? `1 1 300px` : `0 0 300px`
+    },
     grow: {
         flexGrow: 1,
         flexBasis: 0,
@@ -28,11 +32,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     contentContainer: {
         flex: '1 0 0',
-        height: 720,
+        height: (isMobile()) ? 390 : 720,
         marginBottom: theme.spacing(2)
     },
     content: {
-        padding: theme.spacing(4),
+        padding: (isMobile()) ? 0 : theme.spacing(4),
         flex: '1 1 0',
         minHeight: 0,
         display: 'flex',
@@ -41,6 +45,9 @@ const useStyles = makeStyles((theme: Theme) =>
     marginBottom: {
         marginBottom: theme.spacing(2)
     },
+    noMobile: {
+        display: (isMobile()) ? `none`: 'initial'
+    }
   }),
 );
 
@@ -70,11 +77,11 @@ export const Simulator: React.FC = () => {
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid container spacing={2} direction='row'>
-                <Grid item >
+                <Grid item className={classes.leftPanel}>
                     <Controls onChange={onControlChange}></Controls>
                 </Grid>
                 <Grid container item direction="column" className={classes.grow} spacing={2}>
-                    <Grid item >
+                    <Grid item className={classes.noMobile}>
                         <ShutdownRange
                             shutdownWeeks={optimalWeeks}
                             startDate={state.controls.infectionStartDate}
@@ -106,7 +113,7 @@ export const Simulator: React.FC = () => {
                                     <Typography variant="caption">Table View</Typography>
                                     <Switch color="primary" id='switcher' checked={isTableView} onChange={() => setIsTableView(!isTableView)}></Switch>
                                 </Grid>
-                                <Grid item className={classes.grow} style={{ display: 'flex', flexDirection: 'column'}}>
+                                <Grid item className={classes.grow} style={{ display: 'flex', flexDirection: 'column', maxWidth: '100vw'}}>
                                     {(isTableView) ? <Table
                                         columns={TABLE_COLUMNS} 
                                         data={weeks}></Table>

@@ -3,6 +3,7 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
+import { isMobile } from '../../services/viewport-service';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -12,7 +13,8 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: theme.spacing(2)
     },
     chartContainer: {
-        height: 600
+        height: (isMobile()) ? 400 : 600,
+        zoom: (isMobile()) ? 0.8 : 1,
     }
   }),
 );
