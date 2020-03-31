@@ -3,8 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {stateData} from "./usa-state-population-data";
-import {countryData} from "./country-population-data";
+import {countryPopulationData, UnitedStates, USStatePopulationData} from "../../api";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -14,28 +13,28 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function GroupedSelect(props) {
+export default function RegionSelect(props) {
     const classes = useStyles();
+
+    const createRegionData = (regionMap) => {
+        let regionArray = []
+        regionMap.forEach((value, key) => {
+            regionArray.push(<option value={key}>{key}</option>);
+        });
+        return regionArray;
+    };
 
     return (
         <div>
             <FormControl className={classes.formControl}>
                 <InputLabel>{props.label}</InputLabel>
-                <Select native defaultValue={countryData[0].Country} onChange={props.onChange}>
-                    <option value={countryData[0].Country}>{countryData[0].Country}</option>
+                <Select native defaultValue="United States" onChange={props.onChange}>
+                    <option value={UnitedStates}>{UnitedStates}</option>
                     <optgroup label="States in USA">
-                        {
-                            stateData.map((data, index) => {
-                               return <option value={data.State}>{data.State}</option>
-                            })
-                        }
+                        { createRegionData(USStatePopulationData)}
                     </optgroup>
                     <optgroup label="Countries">
-                        {
-                            countryData.map((data, index) => {
-                                return <option value={data.Country}>{data.Country}</option>
-                            })
-                        }
+                        {createRegionData(countryPopulationData)}
                     </optgroup>
                 </Select>
             </FormControl>

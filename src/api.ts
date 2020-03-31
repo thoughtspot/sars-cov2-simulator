@@ -1,11 +1,13 @@
 import React from 'react';
-import {stateData} from "./components/grouped-select/usa-state-population-data";
-import {countryData} from "./components/grouped-select/country-population-data";
+import {default as countryStateData} from "./generated-data/country-state-data.json";
+import {default as stateCodeMapping} from "./generated-data/us-country-code-data.json";
 
 let USStateInfectedData = new Map();
 let countryInfectedData = new Map();
-let USStatePopulationData = new Map();
-let countryPopulationData = new Map();
+export let USStatePopulationData = new Map();
+export let countryPopulationData = new Map();
+let stateCodeMap = new Map();
+export const UnitedStates= "USA";
 
 export const useInitCovidData = () => {
     let [loaded, setLoaded] = React.useState(false);
@@ -13,6 +15,7 @@ export const useInitCovidData = () => {
         return loaded;
     }
     initPopulationData();
+    initStateMappingCode();
     initCovidData()
         .then(() => {
             setLoaded(true);
@@ -29,29 +32,40 @@ export const getPopulationData = (placeName: string) => {
 };
 
 function initPopulationData() {
-    stateData.forEach(value => USStatePopulationData.set(value.State, value.Population));
-    countryData.forEach(value => countryPopulationData.set(value.Country,value.Population));
+    countryStateData.forEach(value => {
+         value.country != value.state
+             ? USStatePopulationData.set(value.state, value.population)
+             : countryPopulationData.set(value.country,value.population);
+    });
+}
+
+function initStateMappingCode() {
+    stateCodeMapping.forEach((value) => {
+        stateCodeMap.set(value.Code, value.State);
+    })
+
 }
 
 function initCovidData() {
-    return fetch("https://cors-anywhere.herokuapp.com/https://bing.com/covid/data")
+    return fetch("https://cors-anywhere.herokuapp.com/https://corona-api.com/countries")
         .then(response => {
             return response.json();
-        }).then(data => {
-        console.log('covid data', data);
-        let areas = data.areas;
-        let USData;
-        // This will get me the countries
-        for(let area of areas){
-            if(area.displayName == "United States"){
-                USData = area.areas;
+        }).then(responseData => {
+            console.log('covid data', responseData.data);
+            let allCountryData = responseData.data;
+            for(let countryData of allCountryData) {
+                let latest_data = countryData.latest_data;
+                countryInfectedData.set(countryData.name, latest_data.confirmed - latest_data.recovered - latest_data.deaths )
             }
-            countryInfectedData.set(area.displayName, (area.totalConfirmed - area.totalDeaths - area.totalRecovered))
-        }
-        console.log('Country data', countryInfectedData.toString());
-        for(let stateData of USData){
-            USStateInfectedData.set(stateData.displayName, (stateData.totalConfirmed - stateData.totalDeaths - stateData.totalRecovered))
-        }
+            fetch("https://cors-anywhere.herokuapp.com/https://covidtracking.com/api/states")
+                .then(response => {
+                    return response.json();
+                }).then(responseData => {
+                for(let stateData of responseData) {
+                    USStateInfectedData.set(stateCodeMap.get(stateData.state), stateData.positive - stateData.deaths);
+                }
+
+            });
         console.log('Done');
     }).catch(()=> {
         console.log("Error while fetching data");

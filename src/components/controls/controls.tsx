@@ -9,10 +9,13 @@ import {
   } from '@material-ui/pickers';
 import {Slider} from '../slider/slider';
 import {sliders} from './controls-data';
-import GroupedSelect from "../grouped-select/grouped-select";
-import {stateData} from "../grouped-select/usa-state-population-data";
-import {getCovidData, getPopulationData} from "../../api";
-import {countryData} from "../grouped-select/country-population-data";
+import RegionSelect from "../region-select/region-select";
+import {
+    countryPopulationData,
+    getCovidData,
+    getPopulationData,
+    UnitedStates
+} from "../../api";
 
 export interface ControlState {
     R0?: number;
@@ -44,7 +47,7 @@ const initialState: ControlState = sliders.reduce((sliderValues, slider) => {
     return sliderValues;
 }, {});
 initialState.infectionStartDate = new Date();
-initialState.totalPopulation = stateData[0].Population;
+initialState.totalPopulation = countryPopulationData.get(UnitedStates);
 initialState.totalHospitalBeds = 1000000;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -102,8 +105,8 @@ function reducer(state, action) {
 
 export const Controls: React.FC<Props> = ({ onChange }) => {
     const classes = useStyles();
-    initialState.initialNumberOfCases = getCovidData(countryData[0].Country);
-    initialState.totalPopulation = getPopulationData(countryData[0].Country)
+    initialState.initialNumberOfCases = getCovidData(UnitedStates);
+    initialState.totalPopulation = getPopulationData(UnitedStates);
     const [state, dispatch] = React.useReducer(reducer, initialState);
 
     useEffect(() => {
@@ -146,7 +149,7 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
         })
     };
 
-    const onPlaceChanged = (event) => {
+    const onRegionChanged = (event) => {
         let placeName = event.target.value;
         onPopulationChange(undefined, getPopulationData(placeName));
         onNumberOfCasesChanged(undefined, getCovidData(placeName));
@@ -159,7 +162,7 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
                         <Typography>Control Values</Typography>
                     </Grid>
                     <Grid item style={textItemStyle}>
-                        <GroupedSelect onChange={onPlaceChanged} label="Place"></GroupedSelect>
+                        <RegionSelect onChange={onRegionChanged} label="Place"></RegionSelect>
                     </Grid>
                     <Grid item style={textItemStyle}>
                         <TextField label="Total population"
