@@ -1,4 +1,4 @@
-Continent,Country,State,Total Population,Critical care Beds,Total Hospital Beds
+continent,country,state,population,icuBeds,hospitalBeds
 North America,USA,Alabama,4903185,1533,15199
 North America,USA,Alaska,731545,119,1609
 North America,USA,Arizona,7278717,1559,13829
