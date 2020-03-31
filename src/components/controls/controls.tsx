@@ -9,6 +9,10 @@ import {
   } from '@material-ui/pickers';
 import {Slider} from '../slider/slider';
 import {sliders} from './controls-data';
+import GroupedSelect from "../grouped-select/grouped-select";
+import {stateData} from "../grouped-select/usa-state-population-data";
+import {getCovidData, getPopulationData} from "../../api";
+import {countryData} from "../grouped-select/country-population-data";
 
 export interface ControlState {
     R0?: number;
@@ -39,11 +43,9 @@ const initialState: ControlState = sliders.reduce((sliderValues, slider) => {
     sliderValues[slider.name] = slider.defaultValue;
     return sliderValues;
 }, {});
-initialState.infectionStartDate = new Date('1/1/2020');
-initialState.initialNumberOfCases = 5;
-initialState.totalPopulation = 331000000;
+initialState.infectionStartDate = new Date();
+initialState.totalPopulation = stateData[0].Population;
 initialState.totalHospitalBeds = 1000000;
-
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -100,7 +102,10 @@ function reducer(state, action) {
 
 export const Controls: React.FC<Props> = ({ onChange }) => {
     const classes = useStyles();
+    initialState.initialNumberOfCases = getCovidData(countryData[0].Country);
+    initialState.totalPopulation = getPopulationData(countryData[0].Country)
     const [state, dispatch] = React.useReducer(reducer, initialState);
+
     useEffect(() => {
         onChange(state);
     }, [state]);
@@ -111,35 +116,41 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
             sliderName,
             value
         });
-    }
+    };
 
     const onDateChange = (infectionStartDate: Date) => {
         dispatch({
             type: Actions.CHANGE_START_DATE,
             infectionStartDate
         })
-    }
+    };
 
-    const onPopulationChange = (event) => {
+    const onPopulationChange = (event, value?) => {
         dispatch({
             type: Actions.CHANGE_POPULATION,
-            value: event.target.value
+            value: value||event.target.value
         })
-    }
+    };
 
-    const onNumberOfCasesChanged = (event) => {
+    const onNumberOfCasesChanged = (event, value?) => {
         dispatch({
             type: Actions.CHANGE_INITIAL_NUMBER_OF_CASES,
-            value: event.target.value
+            value: value||event.target.value
         })
-    }
+    };
 
     const onBedsChanged = (event) => {
         dispatch({
             type: Actions.CHANGE_BEDS,
             value: event.target.value
         })
-    }
+    };
+
+    const onPlaceChanged = (event) => {
+        let placeName = event.target.value;
+        onPopulationChange(undefined, getPopulationData(placeName));
+        onNumberOfCasesChanged(undefined, getCovidData(placeName));
+    };
 
     return (
             <Paper elevation={3} className={classes.root}>
@@ -148,9 +159,12 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
                         <Typography>Control Values</Typography>
                     </Grid>
                     <Grid item style={textItemStyle}>
+                        <GroupedSelect onChange={onPlaceChanged} label="Place"></GroupedSelect>
+                    </Grid>
+                    <Grid item style={textItemStyle}>
                         <TextField label="Total population"
-                            onChange={onPopulationChange}
-                            value={state.totalPopulation}></TextField>
+                                   onChange={onPopulationChange}
+                                   value={state.totalPopulation}></TextField>
                     </Grid>
                     <Grid item style={textItemStyle}>
                         <KeyboardDatePicker 
