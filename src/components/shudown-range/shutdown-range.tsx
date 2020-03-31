@@ -149,7 +149,7 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
             <Grid container direction="column" alignItems="flex-start" spacing={2}>
                 <Grid container alignItems="center" justify="space-between">
                     <Tooltip title="Weeks when we will have a shutdown.">
-                        <Typography className={classes.marginBottom}>Shutdown Dates</Typography>
+                        <Typography className={classes.marginBottom}>Optimal Shutdown Dates</Typography>
                     </Tooltip>
                     <Grid item>
                         <Grid container alignItems="center">

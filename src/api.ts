@@ -46,26 +46,30 @@ function initStateMappingCode() {
 
 }
 
-function initCovidData() {
-    return fetch("https://cors-anywhere.herokuapp.com/https://corona-api.com/countries")
-        .then(response => {
-            return response.json();
-        }).then(responseData => {
-            console.log('covid data', responseData.data);
-            let allCountryData = responseData.data;
-            for(let countryData of allCountryData) {
-                let latest_data = countryData.latest_data;
-                countryInfectedData.set(countryData.name, latest_data.confirmed - latest_data.recovered - latest_data.deaths )
-            }
-            fetch("https://cors-anywhere.herokuapp.com/https://covidtracking.com/api/states")
-                .then(response => {
-                    return response.json();
-                }).then(responseData => {
-                for(let stateData of responseData) {
-                    USStateInfectedData.set(stateCodeMap.get(stateData.state), stateData.positive - stateData.deaths);
-                }
+async function initStateCovidData() {
+    let resp = await fetch("https://cors-anywhere.herokuapp.com/https://covidtracking.com/api/states");
+    let responseData = await resp.json();
+    for(let stateData of responseData) {
+        USStateInfectedData.set(stateCodeMap.get(stateData.state), stateData.positive - stateData.death);
+    }
+}
 
-            });
+async function initCountryCovidData() {
+    let resp = await fetch('https://cors-anywhere.herokuapp.com/https://corona-api.com/countries');
+    let responseData = await resp.json();
+    let allCountryData = responseData.data;
+    for(let countryData of allCountryData) {
+        let latest_data = countryData.latest_data;
+        countryInfectedData.set(countryData.name, latest_data.confirmed - latest_data.recovered - latest_data.deaths )
+    }
+}
+
+
+function initCovidData() {
+    return Promise.all([
+        initStateCovidData(),
+        initCountryCovidData()
+    ]).then(() => {
         console.log('Done');
     }).catch(()=> {
         console.log("Error while fetching data");

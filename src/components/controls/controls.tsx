@@ -175,12 +175,12 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
                             variant="inline" value={state.infectionStartDate} label='Start date'></KeyboardDatePicker>
                     </Grid>
                     <Grid item style={textItemStyle}>
-                        <TextField label="Initial infected people"
+                        <TextField label="Infected cases"
                             onChange={onNumberOfCasesChanged}
                             value={state.initialNumberOfCases}></TextField>
                     </Grid>
                     <Grid item>
-                        <TextField label="Total hospital beds"
+                        <TextField label="Approx. hospital beds"
                             onChange={onBedsChanged}
                             value={state.totalHospitalBeds}></TextField>
                     </Grid>
