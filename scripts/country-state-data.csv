@@ -1,0 +1,107 @@
+Continent,Country,State,Total Population,Critical care Beds,Total Hospital Beds
+North America,USA,Alabama,4903185,1533,15199
+North America,USA,Alaska,731545,119,1609
+North America,USA,Arizona,7278717,1559,13829
+North America,USA,Arkansas,3017804,732,9656
+North America,USA,California,39512223,7338,71122
+North America,USA,Colorado,5758736,1095,10941
+North America,USA,Connecticut,3565287,674,7130
+North America,USA,Delaware,973764,186,2142
+North America,USA,District of Columbia,705749,314,3105
+North America,USA,Florida,21477737,5604,55842
+North America,USA,Georgia,10617423,2508,25481
+North America,USA,Hawaii,1415872,201,2690
+North America,USA,Idaho,1787065,314,3395
+North America,USA,Illinois,12671821,3144,31679
+North America,USA,Indiana,6732219,1861,18176
+North America,USA,Iowa,3155070,545,9465
+North America,USA,Kansas,2913314,767,9613
+North America,USA,Kentucky,4467673,1392,14296
+North America,USA,Louisiana,4648794,1289,15341
+North America,USA,Maine,1344212,256,3360
+North America,USA,Maryland,6045680,1134,11486
+North America,USA,Massachusetts,6892503,1326,15852
+North America,USA,Michigan,9986857,2423,24967
+North America,USA,Minnesota,5639632,1171,14099
+North America,USA,Mississippi,2976149,824,11904
+North America,USA,Missouri,6137428,1888,19026
+North America,USA,Montana,1068778,165,3526
+North America,USA,Nebraska,1934408,440,6963
+North America,USA,Nevada,3080156,900,6468
+North America,USA,New Hampshire,1359711,242,2855
+North America,USA,New Jersey,8882190,1822,21317
+North America,USA,New Mexico,2096829,340,3774
+North America,USA,New York,19453561,3952,52524
+North America,USA,North Carolina,10488084,2227,22024
+North America,USA,North Dakota,762062,238,3276
+North America,USA,Ohio,11689100,3314,32729
+North America,USA,Oklahoma,3956971,1064,11079
+North America,USA,Oregon,4217737,663,6748
+North America,USA,Pennsylvania,12801989,3169,37125
+North America,USA,Rhode Island,1059361,279,2224
+North America,USA,South Carolina,5148714,1225,12356
+North America,USA,South Dakota,884659,152,4246
+North America,USA,Tennessee,6829174,2209,19804
+North America,USA,Texas,28995881,6199,66690
+North America,USA,Utah,3205958,565,5770
+North America,USA,Vermont,623989,94,1310
+North America,USA,Virginia,8535519,1654,17924
+North America,USA,Washington,7614893,1265,12945
+North America,USA,West Virginia,1792147,653,6810
+North America,USA,Wisconsin,5822434,1159,12227
+North America,USA,Wyoming,578759,102,2025
+North America,USA,USA,328239523,74289,850000
+Asia,Bangladesh,Bangladesh,164689383,1174,131752
+Asia,Brunei,Brunei,437479,58,1181
+Asia,China,China,1439323776,49453,6045160
+Asia,Hong Kong,Hong Kong,7496981,511,36660
+Asia,India,India,1380004385,40000,966003
+Asia,Indonesia,Indonesia,273523615,7094,328228
+Asia,Iran,Iran,83992949,3790,125989
+Asia,Japan,Japan,126476461,9241,1694785
+Asia,Kazakhstan,Kazakhstan,18776707,3948,125804
+Asia,Laos,Laos,7275560,152,10913
+Asia,Malaysia,Malaysia,32365999,1060,61495
+Asia,Mongolia,Mongolia,3278290,271,22948
+Asia,Myanmar,Myanmar,54409800,586,48969
+Asia,Nepal,Nepal,29136808,815,8741
+Asia,Oman,Oman,5106626,499,8171
+Asia,Pakistan,Pakistan,220892340,3142,132535
+Asia,Philippines,Philippines,109581078,2335,109581
+Asia,Saudi Arabia,Saudi Arabia,34813871,6515,93997
+Asia,Singapore,Singapore,5850342,671,67279
+Asia,South Korea,South Korea,51269185,5402,615230
+Asia,Sri Lanka,Sri Lanka,21413249,519,77088
+Asia,Taiwan,Taiwan,23816775,6701,166717
+Asia,Thailand,Thailand,69799978,7100,146580
+Europe,Andorra,Andorra,77265,6,188
+Europe,Austria,Austria,9006398,1833,48446
+Europe,Belgium,Belgium,11589623,1755,50156
+Europe,Bulgaria,Bulgaria,6948445,913,57460
+Europe,Croatia,Croatia,4105267,650,15629
+Europe,Cyprus,Cyprus,1207359,92,2813
+Europe,Czech Republic,Czech Republic,10708981,1227,91068
+Europe,Denmark,Denmark,5792202,372,17124
+Europe,Estonia,Estonia,1326535,196,5096
+Europe,Finland,Finland,5540720,329,12442
+Europe,France,France,65273511,7540,232821
+Europe,Germany,Germany,83783942,23890,469791
+Europe,Greece,Greece,10423054,680,44411
+Europe,Hungary,Hungary,9660351,1374,41574
+Europe,Iceland,Iceland,341243,29,1169
+Europe,Ireland,Ireland,4937786,289,12202
+Europe,Italy,Italy,60461826,7550,201932
+Europe,Latvia,Latvia,1886198,217,11833
+Europe,Lithuania,Lithuania,2722289,502,17061
+Europe,Luxembourg,Luxembourg,625978,127,2511
+Europe,Norway,Norway,5421241,395,13639
+Europe,Poland,Poland,10196709,2635,156662
+Europe,Portugal,Portugal,37846611,451,31722
+Europe,Romania,Romania,19237691,4574,108611
+Europe,Slovakia,Slovakia,5459642,500,32560
+Europe,Slovenia,Slovenia,2078938,131,7656
+Europe,Spain,Spain,46754778,4479,124194
+Europe,Sweden,Sweden,10099265,550,26131
+Europe,Switzerland,Switzerland,8654622,866,28096
+Europe,The Netherlands,The Netherlands,17134872,1065,56085
+Europe,UK,UK,67886011,4114,147809
