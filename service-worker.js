@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/sars-cov2-simulator/precache-manifest.065fa419ca0b56abc8bcf4c9c6fb4133.js"
+  "/sars-cov2-simulator/precache-manifest.f47005d4ac16286143ed8be004d6238e.js"
 );
 
 self.addEventListener('message', (event) => {
