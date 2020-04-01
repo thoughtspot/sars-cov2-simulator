@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
         marginBottom: theme.spacing(2)
     },
     chartContainer: {
-        height: (isMobile()) ? 400 : 600,
+        height: (isMobile()) ? 400 : 700,
         zoom: (isMobile()) ? 0.8 : 1,
     }
   }),

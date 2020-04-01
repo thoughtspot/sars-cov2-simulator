@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     contentContainer: {
         flex: '1 0 0',
-        height: (isMobile()) ? 390 : 720,
+        height: (isMobile()) ? 390 : 836,
         marginBottom: theme.spacing(2)
     },
     content: {
@@ -113,9 +113,10 @@ export const Simulator: React.FC = () => {
                                  value={shortNum(weeks[weeks.length - 1].dead)}></Headline>
                         </Grid>
                         <Grid item className={classes.grow}>
-                            <Headline title="ICU Beds needed"
+                            <Headline title="ICU Bed shortage"
+                                 color="secondary"
                                  tooltip="Number of beds short in the ICU to support the pandemic."
-                                 value={shortNum(maxICUBeds)}></Headline>
+                                 value={shortNum(maxICUBeds - state.controls.totalICUBeds)}></Headline>
                         </Grid>
                     </Grid>
                     <Grid item container direction="column" className={classes.contentContainer}>

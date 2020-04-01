@@ -10,6 +10,7 @@ interface Props {
     title: string;
     value: string;
     tooltip: string;
+    color?: "primary" | "secondary";
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export const Headline: React.FC<Props> = ({ title, value, tooltip }) => {
+export const Headline: React.FC<Props> = ({ title, value, tooltip, color }) => {
     const classes = useStyles();
 
     return <Paper className={classes.root} elevation={3}>
@@ -45,7 +46,7 @@ export const Headline: React.FC<Props> = ({ title, value, tooltip }) => {
                     <Typography variant="body2">{title}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography variant="h5">{value}</Typography>
+                    <Typography color={color} variant="h5">{value}</Typography>
                 </Grid>
             </Grid>
         </Tooltip>

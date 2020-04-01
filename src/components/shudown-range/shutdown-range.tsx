@@ -17,7 +17,16 @@ import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
 import Tooltip from '@material-ui/core/Tooltip';
+import Select from '@material-ui/core/Select';
 
+
+enum ShutdownScenarios {
+    TWO_MONTHS,
+    FOUR_MONTHS,
+    SIX_MONTHS,
+    OPTIMAL,
+    CUSTOM
+}
 
 export interface Range {
     start: Date,
@@ -161,7 +170,7 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
                     <Grid item>
                         <Grid container direction="row" alignItems="center">
                             <Tooltip title="Weeks when we will have a shutdown.">
-                                <Typography>Optimal Shutdown Dates</Typography>
+                                <Typography>Shutdown Dates</Typography>
                             </Tooltip>
                             <IconButton onClick={addRange} size="small" style={{ marginLeft: 10}}> <AddIcon/> </IconButton>    
                         </Grid>
@@ -184,7 +193,8 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
                     {/* <Button variant="contained" color="primary"
                         startIcon={<RotateLeftIcon />} onClick={onCustomizeClick}>Customize</Button> */}
                     <Button 
-                        variant="contained" startIcon={<DateRangeIcon />} onClick={onOptimizeClick} color="secondary">Flatten the curve</Button>    
+                        variant="contained" startIcon={<DateRangeIcon />} 
+                            onClick={onOptimizeClick} color="primary">Optimize shutdowns</Button>    
                 </Grid>
             </Grid>
         </Paper>
