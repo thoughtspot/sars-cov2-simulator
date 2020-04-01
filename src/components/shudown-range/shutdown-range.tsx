@@ -123,6 +123,16 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
         onDoNotOptimizeToggle(evt.target.checked);
     }
 
+    const onOptimizeClick = () => {
+        onDoNotOptimizeToggle(false);
+        computeOptimalWeeks();
+    }
+
+    const onCustomizeClick = () => {
+        onDoNotOptimizeToggle(false);
+        setShutdownState([], null);
+    }
+
     const renderRanges = () => state.ranges.map((range, idx) => <Grid container item direction="row" spacing={4} alignItems="center">
         <Grid item><KeyboardDatePicker variant="inline" onChange={changeRange(range)('start')}  value={range.start} label='Start'></KeyboardDatePicker></Grid>
         <Grid item><KeyboardDatePicker variant="inline" onChange={changeRange(range)('end')}  value={range.end} label='End'></KeyboardDatePicker></Grid>
@@ -153,20 +163,23 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
                     </Tooltip>
                     <Grid item>
                         <Grid container alignItems="center">
-                            <Checkbox color="primary" onChange={onDoNotOptimize}></Checkbox>
-                            <Typography variant="body2">Do not optimize</Typography>
+                            {/* <Checkbox color="primary" onChange={onDoNotOptimize}></Checkbox>
+                            <Typography variant="body2">Do not optimize</Typography> */}
                             <Checkbox color="primary" onChange={onWeekViewToggle}></Checkbox>
                             <Typography variant="body2">Week view</Typography>
                         </Grid>
                     </Grid>
                 </Grid>
-                {(isWeekView) ? renderWeeks() : renderRanges()}
-                <Grid container item className={classes.marginTop} spacing={2} alignItems="center">
-                    <Button variant="contained" startIcon={<AddIcon />} onClick={addRange}>Add</Button>
-                    <Button variant="contained" className={classes.marginLeft}
-                        startIcon={<RotateLeftIcon />} onClick={_ => setShutdownState([], null)}>Reset</Button>
-                    {/* <Button className={classes.marginLeft}
-                        variant="contained" startIcon={<DateRangeIcon />} onClick={computeOptimalWeeks}>Optimize Shutdowns</Button> */}
+                <Grid container item spacing={2} style={{ maxHeight: 400, overflowY: `auto`, overflowX: 'hidden' }}>
+                    {(isWeekView) ? renderWeeks() : renderRanges()}
+                </Grid>
+                <Grid container item className={classes.marginTop} spacing={2} alignItems="center">                    
+                    {/* <Button variant="contained" color="primary"
+                        startIcon={<RotateLeftIcon />} onClick={onCustomizeClick}>Customize</Button> */}
+                    <Button 
+                        variant="contained" startIcon={<DateRangeIcon />} onClick={onOptimizeClick} color="secondary">Optimize Shutdowns</Button>
+                    <Button variant="contained" className={classes.marginLeft} startIcon={<AddIcon />} onClick={addRange}>Add</Button>
+                    
                 </Grid>
             </Grid>
         </Paper>

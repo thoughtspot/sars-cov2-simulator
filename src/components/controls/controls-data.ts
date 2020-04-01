@@ -14,7 +14,7 @@ export const sliders = [
         min: 0,
         max: 3.0,
         step: 0.1,
-        defaultValue: 0.6,
+        defaultValue: 1.0,
         tooltip: 'Average number of people a single person infects\n when we are in a shutdown.'
     },
     {

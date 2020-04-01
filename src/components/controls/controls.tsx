@@ -84,7 +84,7 @@ function reducer(state, action) {
         case Actions.CHANGE_POPULATION:
             return {
                 ...state,
-                totalPopulation: action.value
+                totalPopulation: Number(action.value)
             }
         case Actions.CHANGE_BEDS:
             return {
@@ -111,9 +111,9 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
     const classes = useStyles();
     initialState.initialNumberOfCases = getCovidData(UnitedStates);
     let data = getDemographicsData(UnitedStates);
-    initialState.totalPopulation = data.population;
-    initialState.totalHospitalBeds = data.hospitalBeds;
-    initialState.totalICUBeds = data.icuBeds;
+    initialState.totalPopulation = Number(data.population);
+    initialState.totalHospitalBeds = Number(data.hospitalBeds);
+    initialState.totalICUBeds = Number(data.icuBeds);
     const [state, dispatch] = React.useReducer(reducer, initialState);
 
     useEffect(() => {

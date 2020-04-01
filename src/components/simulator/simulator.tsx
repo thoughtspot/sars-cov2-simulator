@@ -53,10 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const TABLE_COLUMNS = ['weekNum', 'healthy', 'newInfected', 'totalInfected', 'currentlyInfected', 'dead', 'hospitalized'];
 const initialShutdownWeeks = Array(104).fill(false);
-for(let i = 14;i<30;i++) {
-    initialShutdownWeeks[i] = true;
-}
-for(let i = 36;i<51;i++) {
+for(let i = 0;i<16;i++) {
     initialShutdownWeeks[i] = true;
 }
 
@@ -69,7 +66,7 @@ export const Simulator: React.FC = () => {
         onShutdownChange] = useGenerateConfig();
     const [optimalWeeks, setOptimalWeeks] = React.useState<boolean[]>(initialShutdownWeeks);
     const [isTableView, setIsTableView] = React.useState(false);
-    const [doNotOptimize, setDoNotOptimize] = React.useState(false);
+    const [doNotOptimize, setDoNotOptimize] = React.useState(true);
 
     const computeOptimalWeeks = () => {
         setOptimalWeeks(getOptimalWeeks(state.controls));
