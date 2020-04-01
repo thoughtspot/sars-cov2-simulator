@@ -198,7 +198,7 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
                             onChange={onBedsChanged}
                             value={state.totalHospitalBeds}></TextField>
                     </Grid>
-                    <Grid item >
+                    <Grid item style={{paddingTop: 20}}>
                         <TextField label="Approx. ICU  beds"
                                    onChange={onICUBedsChanged}
                                    value={state.totalICUBeds}></TextField>
