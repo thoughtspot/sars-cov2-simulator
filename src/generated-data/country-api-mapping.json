@@ -1,0 +1,26 @@
+[
+  {
+    "Country_Name": "Brunei",
+    "Api_Mapping": "Brunei Darussalam"
+  },
+  {
+    "Country_Name": "Laos",
+    "Api_Mapping": "Lao People's Democratic Republic"
+  },
+  {
+    "Country_Name": "The Netherlands",
+    "Api_Mapping": "Netherlands"
+  },
+  {
+    "Country_Name": "Czech Republic",
+    "Api_Mapping": "Czechia"
+  },
+  {
+    "Country_Name": "Taiwan",
+    "Api_Mapping": "Taiwan, Province of China"
+  },
+  {
+    "Country_Name": "South Korea",
+    "Api_Mapping": "S. Korea"
+  }
+]
