@@ -158,9 +158,16 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
         <Paper elevation={3} className={classes.root}>
             <Grid container direction="column" alignItems="flex-start" spacing={2}>
                 <Grid container alignItems="center" justify="space-between">
-                    <Tooltip title="Weeks when we will have a shutdown.">
-                        <Typography className={classes.marginBottom}>Optimal Shutdown Dates</Typography>
-                    </Tooltip>
+                    <Grid item>
+                        <Grid container direction="row" alignItems="center">
+                            <Tooltip title="Weeks when we will have a shutdown.">
+                                <Typography>Optimal Shutdown Dates</Typography>
+                            </Tooltip>
+                            <IconButton onClick={addRange} size="small" style={{ marginLeft: 10}}> <AddIcon/> </IconButton>    
+                        </Grid>
+                        
+                    </Grid>
+                    
                     <Grid item>
                         <Grid container alignItems="center">
                             {/* <Checkbox color="primary" onChange={onDoNotOptimize}></Checkbox>
@@ -177,9 +184,7 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
                     {/* <Button variant="contained" color="primary"
                         startIcon={<RotateLeftIcon />} onClick={onCustomizeClick}>Customize</Button> */}
                     <Button 
-                        variant="contained" startIcon={<DateRangeIcon />} onClick={onOptimizeClick} color="secondary">Optimize Shutdowns</Button>
-                    <Button variant="contained" className={classes.marginLeft} startIcon={<AddIcon />} onClick={addRange}>Add</Button>
-                    
+                        variant="contained" startIcon={<DateRangeIcon />} onClick={onOptimizeClick} color="secondary">Flatten the curve</Button>    
                 </Grid>
             </Grid>
         </Paper>
