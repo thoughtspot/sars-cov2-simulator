@@ -14,7 +14,7 @@ import {
     getCovidData,
     getDemographicsData,
     UnitedStates
-} from "../../api";
+} from "../../data-store";
 
 export interface ControlState {
     R0?: number;
@@ -166,11 +166,11 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
 
     const onRegionChanged = (event) => {
         let placeName = event.target.value;
+        onNumberOfCasesChanged(undefined, getCovidData(placeName));
         let data = getDemographicsData(placeName);
         onPopulationChange(undefined, data.population);
         onBedsChanged(undefined, data.hospitalBeds);
         onICUBedsChanged(undefined, data.icuBeds);
-        onNumberOfCasesChanged(undefined, getCovidData(placeName));
     };
 
     return (
