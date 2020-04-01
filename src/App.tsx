@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import Tooltip from '@material-ui/core/Tooltip';
 import qs from 'query-string';
 import './App.css';
 
@@ -46,6 +48,14 @@ function App() {
           <Typography variant="h6" className={classes.title}>
             COVID Simulator
           </Typography>
+          <Tooltip title="Source code">
+            <IconButton edge="end" className={classes.menuButton} 
+              onClick={()=> window.open("https://github.com/thoughtspot/sars-cov2-simulator", "_blank")}
+              color="inherit" aria-label="code">
+              <GitHubIcon />
+            </IconButton>
+          </Tooltip>
+          
         </Toolbar>
       </AppBar>}
       <Container maxWidth='lg' className={classes.container}>
