@@ -1,6 +1,7 @@
 # SARS COV2 Simulator <img src="https://github.com/thoughtspot/sars-cov2-simulator/raw/master/public/coronavirus.png" width=250 align="right" alt="coronavirus" />
 
 View the Full Simulator [here](http://docs.thoughtspot.com/sars-cov2-simulator).
+Also, Read the [blogpost](https://www.thoughtspot.com/thoughtspot-blog/forecasting-covid-19-impact-over-next-two-years?publish=true) for the same.
 
 Made with:
 
