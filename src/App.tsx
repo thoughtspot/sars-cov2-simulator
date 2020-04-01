@@ -11,7 +11,7 @@ import './App.css';
 
 import {Simulator} from './components/simulator/simulator';
 import { Container } from '@material-ui/core';
-import {useInitCovidData} from "./api";
+import {useInitCovidData} from "./data-store";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
