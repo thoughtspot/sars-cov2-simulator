@@ -193,7 +193,7 @@ export const ShutdownRange: React.FC<Props> = ({ shutdownWeeks, startDate, compu
                     {/* <Button variant="contained" color="primary"
                         startIcon={<RotateLeftIcon />} onClick={onCustomizeClick}>Customize</Button> */}
                     <Button 
-                        variant="contained" startIcon={<DateRangeIcon />} 
+                        variant="contained" startIcon={<DateRangeIcon />}  size="large"
                             onClick={onOptimizeClick} color="primary">Optimize shutdowns</Button>    
                 </Grid>
             </Grid>
