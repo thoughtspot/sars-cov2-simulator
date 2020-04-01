@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     contentContainer: {
         flex: '1 0 0',
-        height: (isMobile()) ? 390 : 824,
+        height: (isMobile()) ? 390 : 800,
     },
     content: {
         padding: (isMobile()) ? 0 : theme.spacing(4),

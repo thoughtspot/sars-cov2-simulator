@@ -52,7 +52,6 @@ initialState.infectionStartDate = new Date();
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      paddingTop: theme.spacing(4),
       paddingLeft: theme.spacing(6),
       paddingRight: theme.spacing(2)
     },
@@ -174,7 +173,7 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
 
     return (
             <Paper elevation={3} className={classes.root}>
-                <Grid container direction="column" alignItems="flex-start" spacing={8}>
+                <Grid container direction="column" alignItems="flex-start">
                     <Grid item style={{...textItemStyle, paddingTop: 20}}>
                         <RegionSelect onChange={onRegionChanged} label="Country / State"></RegionSelect>
                     </Grid>
@@ -198,12 +197,12 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
                             onChange={onBedsChanged}
                             value={state.totalHospitalBeds}></TextField>
                     </Grid>
-                    <Grid item style={{paddingTop: 20}}>
+                    <Grid item style={{paddingBottom: 32}}>
                         <TextField label="Approx. ICU  beds"
                                    onChange={onICUBedsChanged}
                                    value={state.totalICUBeds}></TextField>
                     </Grid>
-                    {sliders.map(slider => <Grid item key={slider.name}>
+                    {sliders.map(slider => <Grid item key={slider.name} style={{ margin: '32px 0'}}> 
                         <Slider {...slider} onChange={onSliderChange}></Slider>
                     </Grid>)}
                 </Grid>
