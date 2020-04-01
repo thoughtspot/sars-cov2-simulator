@@ -86,7 +86,7 @@ function initCountryNameApiMapping () {
 async function initStateCovidData() {
     let resp = await fetch("https://cors-anywhere.herokuapp.com/https://covidtracking.com/api/states/daily");
     let responseData = await resp.json();
-    let today = new Date().toISOString().split('T')[0];
+    let today = responseData[0].dateChecked.split('T')[0];
     let stateName;
     let timeLine;
     for(let stateData of responseData) {
@@ -96,6 +96,10 @@ async function initStateCovidData() {
             stateData.dateChecked = stateData.dateChecked.split('T')[0];
 
             if (stateData.dateChecked ==  today) {
+                USStateInfectedData.set(stateName, stateData.positive - stateData.death);
+            } else if(stateData.dateChecked > today) {
+                today = stateData.dateChecked;
+                USStateInfectedData = new Map();
                 USStateInfectedData.set(stateName, stateData.positive - stateData.death);
             }
             timeLine = timeLineData.get(stateName);
