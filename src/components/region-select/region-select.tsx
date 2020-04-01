@@ -17,7 +17,7 @@ export default function RegionSelect(props) {
     const classes = useStyles();
 
     const createRegionData = (regionMap) => {
-        let regionArray = []
+        let regionArray = [];
         regionMap.forEach((value, key) => {
             regionArray.push(<option value={key}>{key}</option>);
         });

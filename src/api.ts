@@ -7,6 +7,7 @@ let USStateInfectedData = new Map();
 let countryInfectedData = new Map();
 export let USStateData = new Map();
 export let countryData = new Map();
+let timeLineData = new Map();
 let stateCodeMap = new Map();
 let countryNameApiMapping = new Map();
 export const UnitedStates= "USA";
@@ -39,6 +40,13 @@ export const getDemographicsData = (placeName: string) => {
     return countryData.get(placeName) || USStateData.get(placeName);
 };
 
+export const getCovidDataForDate = (placeName: string,
+                                    date: string) => {
+    return timeLineData.has(placeName)
+        ? timeLineData.get(placeName).date
+        : {};
+};
+
 function initData() {
     countryStateData.forEach(value => {
          value.country != value.state
@@ -58,6 +66,7 @@ function initData() {
 function initStateMappingCode() {
     stateCodeMapping.forEach((value) => {
         stateCodeMap.set(value.Code, value.State);
+        timeLineData.set(value.State, {});
     })
 }
 
@@ -66,10 +75,27 @@ function initCountryNameApiMapping () {
 }
 
 async function initStateCovidData() {
-    let resp = await fetch("https://cors-anywhere.herokuapp.com/https://covidtracking.com/api/states");
+    let resp = await fetch("https://cors-anywhere.herokuapp.com/https://covidtracking.com/api/states/daily");
     let responseData = await resp.json();
+    let today = new Date().toISOString().split('T')[0];
+    let stateName;
+    let timeLine;
     for(let stateData of responseData) {
-        USStateInfectedData.set(stateCodeMap.get(stateData.state), stateData.positive - stateData.death);
+        stateName = stateCodeMap.get(stateData.state);
+        if(stateName) {
+            stateData.death = stateData.death==null? 0: stateData.death;
+            stateData.dateChecked = stateData.dateChecked.split('T')[0];
+
+            if (stateData.dateChecked ==  today) {
+                USStateInfectedData.set(stateName, stateData.positive - stateData.death);
+            }
+            timeLine = timeLineData.get(stateName);
+            timeLine[stateData.dateChecked] = {
+                active: stateData.positive,
+                deaths: stateData.death
+            };
+            timeLineData.set(stateName, timeLine);
+        }
     }
 }
 
@@ -83,14 +109,31 @@ async function initCountryCovidData() {
     }
 }
 
+async function getCountrySpecificData(countryCode :string) {
+    let resp = await fetch(`https://cors-anywhere.herokuapp.com/https://corona-api.com/countries/${countryCode}`);
+    let responseData = await resp.json();
+    let countryName = responseData.data.name;
+    let countryTimelineData = responseData.data.timeline;
+    let timeLine ={};
+
+    for(let dailyData of countryTimelineData) {
+        timeLine[dailyData.date] = {
+            active: dailyData.active,
+            deaths: dailyData.deaths
+        }
+    }
+    timeLineData.set(countryName, timeLine);
+}
+
 
 function initCovidData() {
     return Promise.all([
         initStateCovidData(),
-        initCountryCovidData()
+        initCountryCovidData(),
+        getCountrySpecificData("US")
     ]).then(() => {
         console.log('Done');
-    }).catch(()=> {
+    }).catch((error)=> {
         console.log("Error while fetching data");
     });
 
