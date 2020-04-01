@@ -53,7 +53,6 @@ export const getCovidDataForDate = (placeName: string,
 
 export const countryTimeLineCB  = (countryName) => {
     getCountrySpecificData(countryCodeMapping.get(countryName))
-        .then()
         .catch(() => console.log(`Error while getting data for ${countryName}`));
 };
 
