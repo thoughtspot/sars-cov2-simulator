@@ -115,7 +115,7 @@ export const Simulator: React.FC = () => {
                             <Headline title="ICU Bed shortage"
                                  color="secondary"
                                  tooltip="Number of beds short in the ICU to support the pandemic."
-                                 value={shortNum(Math.min(maxICUBeds - state.controls.totalICUBeds, 0))}></Headline>
+                                 value={shortNum(Math.max(maxICUBeds - state.controls.totalICUBeds, 0))}></Headline>
                         </Grid>
                     </Grid>
                     <Grid item container direction="column" className={classes.contentContainer}>
