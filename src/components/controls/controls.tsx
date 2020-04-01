@@ -144,7 +144,9 @@ export const Controls: React.FC<Props> = ({ onChange }) => {
     const onNumberOfCasesChanged = (event, value?) => {
         dispatch({
             type: Actions.CHANGE_INITIAL_NUMBER_OF_CASES,
-            value: value||event.target.value
+            value: value === undefined
+                ? event.target.value
+                : value
         })
     };
 

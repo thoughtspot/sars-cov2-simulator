@@ -1,12 +1,14 @@
 import React from 'react';
 import {default as countryStateData} from "./generated-data/country-state-data.json";
 import {default as stateCodeMapping} from "./generated-data/us-country-code-data.json";
+import {default as countryApiMapping} from "./generated-data/country-api-mapping.json"
 
 let USStateInfectedData = new Map();
 let countryInfectedData = new Map();
 export let USStateData = new Map();
 export let countryData = new Map();
 let stateCodeMap = new Map();
+let countryNameApiMapping = new Map();
 export const UnitedStates= "USA";
 
 export const useInitCovidData = () => {
@@ -16,6 +18,7 @@ export const useInitCovidData = () => {
     }
     initData();
     initStateMappingCode();
+    initCountryNameApiMapping();
     initCovidData()
         .then(() => {
             setLoaded(true);
@@ -24,7 +27,12 @@ export const useInitCovidData = () => {
 };
 
 export const getCovidData = (placeName: string) => {
-    return parseInt(USStateInfectedData.get(placeName) || countryInfectedData.get(placeName) || 0);
+    let newPlaceName = countryNameApiMapping.has(placeName)
+        ? countryNameApiMapping.get(placeName)
+        : placeName;
+    return parseInt(USStateInfectedData.get(newPlaceName)
+        || countryInfectedData.get(newPlaceName)
+        || 0);
 };
 
 export const getDemographicsData = (placeName: string) => {
@@ -51,7 +59,10 @@ function initStateMappingCode() {
     stateCodeMapping.forEach((value) => {
         stateCodeMap.set(value.Code, value.State);
     })
+}
 
+function initCountryNameApiMapping () {
+    countryApiMapping.forEach(value => countryNameApiMapping.set(value.Country_Name, value.Api_Mapping));
 }
 
 async function initStateCovidData() {
