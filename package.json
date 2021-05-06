@@ -20,7 +20,7 @@
     "devextreme": "^19.2.6",
     "devextreme-react": "^19.2.6",
     "gh-pages": "^2.2.0",
-    "highcharts": "^8.0.4",
+    "highcharts": "^9.0.0",
     "highcharts-react-official": "^3.0.0",
     "human-number": "^1.0.5",
     "query-string": "^6.11.1",
