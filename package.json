@@ -17,7 +17,7 @@
     "@types/react-dom": "^16.9.5",
     "csvtojson": "^2.0.10",
     "date-fns": "^2.11.0",
-    "devextreme": "^19.2.6",
+    "devextreme": "^19.2.15",
     "devextreme-react": "^19.2.6",
     "gh-pages": "^2.2.0",
     "highcharts": "^8.0.4",
@@ -27,7 +27,7 @@
     "react": "^16.13.0",
     "react-date-range": "^1.0.3",
     "react-dom": "^16.13.0",
-    "react-scripts": "3.4.0",
+    "react-scripts": "5.0.1",
     "short-number": "^1.0.7",
     "typescript": "^3.7.5"
   },
